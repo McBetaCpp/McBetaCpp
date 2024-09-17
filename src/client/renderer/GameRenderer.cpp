@@ -257,13 +257,10 @@ void GameRenderer::renderItemInHand(float a, int_t eye)
 
 void GameRenderer::render(float a)
 {
-	// Maybe disable rendering when the window is not active? Stubbed out
 	if (!lwjgl::Display::isActive())
 	{
 		if (System::currentTimeMillis() - lastActiveTime > 500)
-		{
-			//
-		}
+			mc.pauseGame();
 	}
 	else
 	{
@@ -366,7 +363,7 @@ void GameRenderer::renderLevel(float a)
 		culler.prepare(xOff, yOff, zOff);
 
 		mc.levelRenderer.cull(culler, a);
-		mc.levelRenderer.updateDirtyChunks(*player, false);
+		mc.levelRenderer.updateDirtyChunks(*player, Minecraft::FLYBY_MODE);
 		
 		setupFog(0);
 
@@ -446,11 +443,14 @@ void GameRenderer::renderLevel(float a)
 		levelRenderer.renderClouds(a);
 		glDisable(GL_FOG);
 
-		setupFog(1);
-		if (zoom == 1.0)
+		if (!Minecraft::FLYBY_MODE)
 		{
-			glClear(GL_DEPTH_BUFFER_BIT);
-			renderItemInHand(a, eye);
+			setupFog(1);
+			if (zoom == 1.0)
+			{
+				glClear(GL_DEPTH_BUFFER_BIT);
+				renderItemInHand(a, eye);
+			}
 		}
 
 		if (!mc.options.anaglyph3d)

@@ -141,6 +141,8 @@ private:
 public:
 	~Minecraft();
 
+	void generateFlyby();
+
 	void run();
 
 	void renderFpsMeter(long tickNanos);

@@ -15,6 +15,8 @@
 #include "client/title/TitleScreen.h"
 #include "client/player/KeyboardInput.h"
 
+#include "client/gamemode/SurvivalMode.h"
+
 #include "world/phys/Vec3.h"
 #include "world/phys/AABB.h"
 #include "world/level/chunk/ChunkCache.h"
@@ -271,6 +273,117 @@ Minecraft::~Minecraft()
 	MemoryTracker::release();
 }
 
+void Minecraft::generateFlyby()
+{
+	gameMode = std::make_shared<SurvivalMode>(*this);
+	selectLevel(u"flyby");
+	setScreen(nullptr);
+
+	double player_y = 0.0;
+
+	// Prepare to create a TGA file
+	std::vector<char> image_data(width * height * 3);
+	std::unique_ptr<File> flyby_file(File::open(*workingDirectory, u"flyby"));
+	flyby_file->mkdir();
+
+	char header[18] = {};
+	header[2] = 2;
+	header[12] = width & 0xFF;
+	header[13] = (width >> 8) & 0xFF;
+	header[14] = height & 0xFF;
+	header[15] = (height >> 8) & 0xFF;
+	header[16] = 24;
+
+	// Setup flyby
+	int_t frame = -20;
+	int_t seconds = 60 * 5 + 52;
+	int_t frames = seconds * 60;
+
+	player->yRot = player->yRotO = 12.0f;
+	double sin = -std::sin(player->yRot * Mth::PI / 180.0);
+	double cos = std::cos(player->yRot * Mth::PI / 180.0);
+
+	player->x = player->xo = player->xOld = 0.0;
+	player->z = player->zo = player->zOld = 0.0;
+
+	level->time = 0;
+
+	for (; frame < frames; frame++)
+	{
+		if ((frame % 100) == 0)
+		{
+			std::cout << (static_cast<double>(frame) * 100.0 / static_cast<double>(frames)) << "%, free: " << (float)(Runtime::getRuntime().freeMemory() / 1024) / 1024.0f << " MB\n";
+		}
+
+		double speed = 0.125 + (static_cast<double>(frame) / static_cast<double>(frames)) * 5.0;
+
+		// Tick world
+		AABB::resetPool();
+		Vec3::resetPool();
+
+		if (frame < 0)
+		{
+			level->setSpawnSettings(options.difficulty > 0, true);
+			level->tick();
+		}
+
+		gameRenderer.tick();
+
+		glEnable(GL_TEXTURE_2D);
+
+		while (level->updateLights());
+
+		// Move player
+		player->x = player->xo = player->xOld += sin * speed;
+		player->z = player->zo = player->zOld += cos * speed;
+
+		int_t check_distance = 100;
+		double min_height = 0.0;
+		double check_step = 1.0;
+
+		for (double d = -4.0; d < check_distance; d += check_step)
+		{
+			for (int_t i = 0; i < 9; i++)
+			{
+				double x = ((i % 3) / 2.0f) - 0.5;
+				double z = ((i / 3) / 2.0f) - 0.5;
+				double y = level->getHeightmap(Mth::floor(player->x + sin * d + x), Mth::floor(player->z + cos * d + z));
+				if (y > min_height)
+					min_height = y;
+			}
+		}
+
+		double target_y = min_height + 4.0;
+		if (player_y == 0.0)
+			player_y = target_y;
+		else
+			player_y += (target_y - player_y) * speed / check_distance * 4.0;
+
+		player->xRot = player->xRotO = (player_y - 64.0) / 2.0f;
+		player->y = player->yo = player->yOld = player_y;
+
+		// Render world
+		gameRenderer.renderLevel(1.0f);
+
+		lwjgl::Display::update();
+
+		// Save to TGA
+		glPixelStorei(GL_PACK_ALIGNMENT, 1);
+		glReadPixels(0, 0, width, height, GL_BGR_EXT, GL_UNSIGNED_BYTE, image_data.data());
+
+		if (frame >= 0)
+		{
+			jstring name = String::toString(frame);
+			for (; name.size() < 6; name = u"0" + name);
+
+			std::unique_ptr<File> file(File::open(*flyby_file, name + u".tga"));
+			std::unique_ptr<std::ostream> out(file->toStreamOut());
+			out->write(header, 18);
+			out->write(image_data.data(), image_data.size());
+		}
+	}
+}
+
 void Minecraft::run()
 {
 	// init
@@ -294,6 +407,9 @@ void Minecraft::run()
 	try
 	{
 #endif
+		if (FLYBY_MODE)
+			generateFlyby();
+
 		long_t fpsMs = System::currentTimeMillis();
 		int_t fpsFrames = 0;
 		int_t fpsTicks = 0;
@@ -353,8 +469,6 @@ void Minecraft::run()
 
 			if (!lwjgl::Display::isActive())
 			{
-				if (level != nullptr && screen == nullptr)
-				pauseGame();
 				if (fullscreen)
 					toggleFullscreen();
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
