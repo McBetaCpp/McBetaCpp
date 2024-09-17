@@ -115,7 +115,7 @@ public:
 
 	}
 
-	virtual bool createNewFile() const
+	virtual bool createNewFile() const override
 	{
 	    #ifdef _WIN32
 		HANDLE hfile = CreateFileW(wpath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);

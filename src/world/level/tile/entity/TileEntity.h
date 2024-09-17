@@ -10,7 +10,7 @@
 class Level;
 class Tile;
 
-class TileEntity : public std::enable_shared_from_this<TileEntity>
+class TileEntity : std::enable_shared_from_this<TileEntity>
 {
 public:
 	virtual jstring getEncodeId() const { return u""; }
@@ -18,6 +18,8 @@ public:
 	std::shared_ptr<Level> level;
 
 	int_t x = 0, y = 0, z = 0;
+
+	virtual ~TileEntity() {}
 
 	virtual void load(CompoundTag &tag);
 	virtual void save(CompoundTag &tag);

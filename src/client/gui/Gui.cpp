@@ -100,10 +100,10 @@ void Gui::render(float a, bool inScreen, int_t xm, int_t ym)
 		font.drawShadow(minecraft.gatherStats3(), 2, 32, 0xFFFFFF);
 		font.drawShadow(minecraft.gatherStats4(), 2, 42, 0xFFFFFF);
 
-		int_t maxMemory = Runtime::getRuntime().maxMemory();
-		int_t totalMemory = Runtime::getRuntime().totalMemory();
-		int_t freeMemory = Runtime::getRuntime().freeMemory();
-		int_t usedMemory = totalMemory - freeMemory;
+		long_t maxMemory = Runtime::getRuntime().maxMemory();
+		long_t totalMemory = Runtime::getRuntime().totalMemory();
+		long_t freeMemory = Runtime::getRuntime().freeMemory();
+		long_t usedMemory = totalMemory - freeMemory;
 
 		jstring str = u"Used memory: " + String::toString(usedMemory * 100 / maxMemory) + u"% (" + String::toString(usedMemory / 1024 / 1024) + u"MB) of " + String::toString(maxMemory / 1024 / 1024) + u"MB";
 		drawString(font, str, width - font.width(str) - 2, 2, 0xE0E0E0);

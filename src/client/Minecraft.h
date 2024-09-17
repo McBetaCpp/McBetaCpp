@@ -139,6 +139,10 @@ private:
 	void checkGlError(const std::string &at);
 
 public:
+	~Minecraft();
+
+	void generateFlyby();
+
 	void run();
 
 	void renderFpsMeter(long tickNanos);

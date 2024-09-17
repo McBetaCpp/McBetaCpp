@@ -48,4 +48,5 @@ void OffsettedRenderList::clear()
 {
 	inited = false;
 	rendered = false;
+	lists.clear();
 }

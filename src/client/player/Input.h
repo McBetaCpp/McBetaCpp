@@ -13,6 +13,8 @@ public:
 	bool jumping = false;
 	bool sneaking = false;
 
+	virtual ~Input() {}
+
 	virtual void tick(Player &player);
 	virtual void releaseAllKeys();
 	virtual void setKey(int_t key, bool eventKeyState);

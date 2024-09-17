@@ -5,9 +5,9 @@
 #include <Windows.h>
 #include <Psapi.h>
 #else
-#include <sys/sysinfo.h>   // For sysinfo()
-#include <sys/resource.h>  // For getrusage()
-#include <unistd.h>        // For getpid()
+#include <sys/sysinfo.h>  // For sysinfo()
+#include <sys/resource.h> // For getrusage()
+#include <unistd.h>		  // For getpid()
 #include <fstream>
 #include <sstream>
 #endif
@@ -21,49 +21,53 @@ Runtime &Runtime::getRuntime()
 
 long_t Runtime::maxMemory()
 {
-    #ifdef _WIN32
+#ifdef _WIN32
 	// Get amount of system memory available
 	MEMORYSTATUSEX statex;
 	statex.dwLength = sizeof(statex);
-	GlobalMemoryStatusEx(&statex);
+	if (!GlobalMemoryStatusEx(&statex))
+		return 1;
 	return statex.ullTotalPhys;
-	#else
-    struct sysinfo info;
-    if (sysinfo(&info) == 0) {
-        return info.totalram * info.mem_unit;
-    }
-    return 0;
-	#endif
+#else
+	struct sysinfo info;
+	if (sysinfo(&info) == 0)
+	{
+		return info.totalram * info.mem_unit;
+	}
+	return 0;
+#endif
 }
 
 long_t Runtime::totalMemory()
 {
-    #ifdef _WIN32
+#ifdef _WIN32
 	// Get memory that the application currently has paged
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-	return pmc.WorkingSetSize;
-	#else
-    struct rusage usage;
-    if (getrusage(RUSAGE_SELF, &usage) == 0) {
-        return usage.ru_maxrss * 1024; // Convert from KB to bytes
-    }
-    return 0;
-	#endif
+	return pmc.PeakWorkingSetSize;
+#else
+	struct rusage usage;
+	if (getrusage(RUSAGE_SELF, &usage) == 0)
+	{
+		return usage.ru_maxrss * 1024; // Convert from KB to bytes
+	}
+	return 0;
+#endif
 }
 
 long_t Runtime::freeMemory()
 {
-    #ifdef _WIN32
+#ifdef _WIN32
 	// Get memory out of the total memory that is not currently used
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
+	return pmc.PeakWorkingSetSize - pmc.WorkingSetSize;
+#else
+	struct sysinfo info;
+	if (sysinfo(&info) == 0)
+	{
+		return info.freeram * info.mem_unit;
+	}
 	return 0;
-	#else
-    struct sysinfo info;
-    if (sysinfo(&info) == 0) {
-        return info.freeram * info.mem_unit;
-    }
-    return 0;
-	#endif
+#endif
 }

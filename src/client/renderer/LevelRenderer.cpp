@@ -156,7 +156,8 @@ void LevelRenderer::allChanged()
 	chunks.clear();
 
 	int_t dist = 64 << (3 - lastViewDistance);
-	if (dist > 400) dist = 400;
+	if (dist > 400)
+		dist = 400;
 
 	xChunks = dist / 16 + 1;
 	yChunks = 8;
@@ -178,6 +179,7 @@ void LevelRenderer::allChanged()
 	for (auto &chunk : dirtyChunks)
 		chunk->dirty = false;
 	dirtyChunks.clear();
+
 	renderableTileEntities.clear();
 
 	for (int_t x = 0; x < xChunks; x++)
@@ -186,18 +188,19 @@ void LevelRenderer::allChanged()
 		{
 			for (int_t z = 0; z < zChunks; z++)
 			{
-				chunks[(z * yChunks + y) * xChunks + x] = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
+				auto chunk = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
+				chunks[(z * yChunks + y) * xChunks + x] = chunk;
 
 				if (occlusionCheck)
-					chunks[(z * yChunks + y) * xChunks + x]->occlusion_id = occlusionCheckIds[count];
-				chunks[(z * yChunks + y) * xChunks + x]->occlusion_querying = false;
-				chunks[(z * yChunks + y) * xChunks + x]->occlusion_visible = true;
-				chunks[(z * yChunks + y) * xChunks + x]->visible = true;
-				chunks[(z * yChunks + y) * xChunks + x]->id = count++;
-				chunks[(z * yChunks + y) * xChunks + x]->setDirty();
+					chunk->occlusion_id = occlusionCheckIds[count];
+				chunk->occlusion_querying = false;
+				chunk->occlusion_visible = true;
+				chunk->visible = true;
+				chunk->id = count++;
+				chunk->setDirty();
 
-				sortedChunks[(z * yChunks + y) * xChunks + x] = chunks[(z * yChunks + y) * xChunks + x];
-				dirtyChunks.push_back(chunks[(z * yChunks + y) * xChunks + x]);
+				sortedChunks[(z * yChunks + y) * xChunks + x] = chunk;
+				dirtyChunks.push_back(chunk);
 
 				id += 3;
 			}
@@ -277,34 +280,38 @@ void LevelRenderer::resortChunks(int_t xc, int_t yc, int_t zc)
 	{
 		int_t xx = x * 16;
 		int_t xOff = xx + s1 - xc;
-		if (xOff < 0) xOff -= s2 - 1;
+		if (xOff < 0)
+			xOff -= s2 - 1;
 
 		xOff /= s2;
 		xx -= xOff * s2;
-		if (xx < xMinChunk) xMinChunk = xx;
-		if (xx > xMaxChunk) xMaxChunk = xx;
+		if (xx < xMinChunk)
+			xMinChunk = xx;
+		if (xx > xMaxChunk)
+			xMaxChunk = xx;
 
 		for (int_t z = 0; z < zChunks; z++)
 		{
 			int_t zz = z * 16;
 			int_t zOff = zz + s1 - zc;
-			if (zOff < 0) zOff -= s2 - 1;
+			if (zOff < 0)
+				zOff -= s2 - 1;
 
 			zOff /= s2;
 			zz -= zOff * s2;
-			if (zz < zMinChunk) zMinChunk = zz;
-			if (zz > zMaxChunk) zMaxChunk = zz;
+			if (zz < zMinChunk)
+				zMinChunk = zz;
+			if (zz > zMaxChunk)
+				zMaxChunk = zz;
 
 			for (int_t y = 0; y < yChunks; y++)
 			{
 				int_t yy = y * 16;
-				int_t yOff = yy + s1 - yc;
-				if (yOff < 0) yOff -= s2 - 1;
 
-				yOff /= s2;
-				yy -= yOff * s2;
-				if (yy < yMinChunk) yMinChunk = yy;
-				if (yy > yMaxChunk) yMaxChunk = yy;
+				if (yy < yMinChunk)
+					yMinChunk = yy;
+				if (yy > yMaxChunk)
+					yMaxChunk = yy;
 
 				auto &chunk = chunks[(z * yChunks + y) * xChunks + x];
 				bool wasDirty = chunk->dirty;
@@ -315,8 +322,6 @@ void LevelRenderer::resortChunks(int_t xc, int_t yc, int_t zc)
 		}
 	}
 }
-
-#include <cassert>
 
 int_t LevelRenderer::render(Player &player, int_t layer, double alpha)
 {
@@ -662,8 +667,10 @@ void LevelRenderer::renderClouds(float alpha)
 	t.begin();
 	t.color(cr, cg, cb, 0.8f);
 
-	for (int_t xx = -s * d; xx < s * d; xx += s) {
-		for (int_t zz = -s * d; zz < s * d; zz += s) {
+	for (int_t xx = -s * d; xx < s * d; xx += s)
+	{
+		for (int_t zz = -s * d; zz < s * d; zz += s)
+		{
 			t.vertexUV(xx + 0, yy, zz + s, (xx + 0) * scale + uo, (zz + s) * scale + vo);
 			t.vertexUV(xx + s, yy, zz + s, (xx + s) * scale + uo, (zz + s) * scale + vo);
 			t.vertexUV(xx + s, yy, zz + 0, (xx + s) * scale + uo, (zz + 0) * scale + vo);
@@ -892,12 +899,14 @@ bool LevelRenderer::updateDirtyChunks(Player &player, bool force)
 				if (chunk->distanceToSqr(player) > 1024.0f)
 				{
 					int_t index;
-					for (index = 0; index < 3 && (toAdd[index] == nullptr || dirtyChunkSorter(toAdd[index], chunk)); index++);
+					for (index = 0; index < 3 && (toAdd[index] == nullptr || dirtyChunkSorter(toAdd[index], chunk)); index++)
+						;
 					index--;
 					if (index > 0)
 					{
 						int_t x = index;
-						while (--x != 0) toAdd[x - 1] = toAdd[x];
+						while (--x != 0)
+							toAdd[x - 1] = toAdd[x];
 						toAdd[index] = chunk;
 					}
 					continue;
@@ -999,7 +1008,7 @@ void LevelRenderer::renderHit(Player &player, HitResult &h, int_t mode, ItemInst
 			t.noColor();
 
 			if (tile == nullptr)
-				tile = reinterpret_cast<Tile*>(&Tile::rock);
+				tile = reinterpret_cast<Tile *>(&Tile::rock);
 
 			tileRenderer->tesselateInWorld(*tile, h.x, h.y, h.z, 240 + static_cast<int_t>(destroyProgress * 10.0f));
 			t.end();
@@ -1084,17 +1093,20 @@ void LevelRenderer::setDirty(int_t x0, int_t y0, int_t z0, int_t x1, int_t y1, i
 	for (int_t x = _x0; x <= _x1; x++)
 	{
 		int_t xx = x % xChunks;
-		if (xx < 0) xx += xChunks;
+		if (xx < 0)
+			xx += xChunks;
 
 		for (int_t y = _y0; y <= _y1; y++)
 		{
 			int_t yy = y % yChunks;
-			if (yy < 0) yy += yChunks;
+			if (yy < 0)
+				yy += yChunks;
 
 			for (int_t z = _z0; z <= _z1; z++)
 			{
 				int_t zz = z % zChunks;
-				if (zz < 0) zz += zChunks;
+				if (zz < 0)
+					zz += zChunks;
 
 				auto &chunk = chunks[(zz * yChunks + yy) * xChunks + xx];
 				if (!chunk->dirty)
@@ -1131,32 +1143,26 @@ void LevelRenderer::cull(Culler &culler, float a)
 
 void LevelRenderer::playStreamingMusic(const jstring &name, int_t x, int_t y, int_t z)
 {
-
 }
 
 void LevelRenderer::playSound(const jstring &name, double x, double y, double z, float volume, float pitch)
 {
-
 }
 
 void LevelRenderer::addParticle(const jstring &name, double x, double y, double z, double xa, double ya, double za)
 {
-
 }
 
 void LevelRenderer::playMusic(const jstring &name, double x, double y, double z, float songOffset)
 {
-
 }
 
 void LevelRenderer::entityAdded(std::shared_ptr<Entity> entity)
 {
-
 }
 
 void LevelRenderer::entityRemoved(std::shared_ptr<Entity> entity)
 {
-
 }
 
 void LevelRenderer::skyColorChanged()
@@ -1173,5 +1179,4 @@ void LevelRenderer::skyColorChanged()
 
 void LevelRenderer::tileEntityChanged(int_t x, int_t y, int_t z, std::shared_ptr<TileEntity> tileEntity)
 {
-
 }

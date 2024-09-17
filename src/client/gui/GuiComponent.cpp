@@ -77,9 +77,9 @@ void GuiComponent::blit(int_t x, int_t y, int_t sx, int_t sy, int_t w, int_t h)
 	const float vs = 1.0f / 256.0f;
 	Tesselator &t = Tesselator::instance;
 	t.begin();
-	t.vertexUV(x + 0, y + h, 0.0, (sx + 0) *us, (sy + h) *vs);
-	t.vertexUV(x + w, y + h, 0.0, (sx + w) *us, (sy + h) *vs);
-	t.vertexUV(x + w, y + 0, 0.0, (sx + w) *us, (sy + 0) *vs);
-	t.vertexUV(x + 0, y + 0, 0.0, (sx + 0) *us, (sy + 0) *vs);
+	t.vertexUV(x + 0, y + h, 0.0, (sx + 0) * us, (sy + h) * vs);
+	t.vertexUV(x + w, y + h, 0.0, (sx + w) * us, (sy + h) * vs);
+	t.vertexUV(x + w, y + 0, 0.0, (sx + w) * us, (sy + 0) * vs);
+	t.vertexUV(x + 0, y + 0, 0.0, (sx + 0) * us, (sy + 0) * vs);
 	t.end();
 }
