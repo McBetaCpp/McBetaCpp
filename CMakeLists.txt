@@ -309,7 +309,10 @@ add_executable(McBetaCpp
 	
 	"src/pc/Main.cpp"
 
+	"src/pc/external/miniaudio.cpp"
 	"src/pc/external/SDLException.h"
+	"src/pc/external/stb_vorbis.cpp"
+	"src/pc/external/stb_vorbis.h"
 
 	"src/pc/lwjgl/Display.cpp"
 	"src/pc/lwjgl/Display.h"
@@ -371,6 +374,8 @@ target_include_directories(McBetaCpp PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/extern
 
 target_include_directories(McBetaCpp PRIVATE "external/stb")
 target_include_directories(McBetaCpp PRIVATE "external/gzip-hpp/include")
+
+target_include_directories(McBetaCpp PRIVATE "external/miniaudio")
 
 # Output to bin/ directory
 set_target_properties(McBetaCpp PROPERTIES
