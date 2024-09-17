@@ -1,0 +1,12 @@
+[submodule "external/SDL2"]
+	path = external/SDL2
+	url = https://github.com/libsdl-org/SDL
+[submodule "external/zlib"]
+	path = external/zlib
+	url = https://github.com/cuckydev/zlib
+[submodule "external/gzip-hpp"]
+	path = external/gzip-hpp
+	url = https://github.com/mapbox/gzip-hpp
+[submodule "external/stb"]
+	path = external/stb
+	url = https://github.com/nothings/stb

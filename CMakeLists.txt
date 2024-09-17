@@ -301,7 +301,7 @@ set(McBetaCpp_SOURCES
 	"src/java/Win32/File.cpp"
 	"src/java/Win32/Resource.cpp"
 	"src/java/Win32/Runtime.cpp"
-
+	
 	"src/external/stb_image.cpp"
 )
 
@@ -321,7 +321,6 @@ add_executable(McBetaCpp
 target_include_directories(McBetaCpp PRIVATE "src/pc")
 
 target_include_directories(McBetaCpp PRIVATE "src")
-target_include_directories(McBetaCpp PRIVATE "external/include")
 
 # Use C++11
 set_target_properties(McBetaCpp PROPERTIES
@@ -342,6 +341,9 @@ add_subdirectory("external/zlib" EXCLUDE_FROM_ALL)
 target_link_libraries(McBetaCpp PRIVATE zlibstatic)
 target_include_directories(McBetaCpp PRIVATE "external/zlib")
 target_include_directories(McBetaCpp PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/external/zlib")
+
+target_include_directories(McBetaCpp PRIVATE "external/stb")
+target_include_directories(McBetaCpp PRIVATE "external/gzip-hpp/include")
 
 # Output to bin/ directory
 set_target_properties(McBetaCpp PROPERTIES
