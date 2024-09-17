@@ -9,6 +9,9 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
+#include <memory>
+
+#include "util/Memory.h"
 
 static jstring FromWPath(const std::wstring &wstr)
 {
