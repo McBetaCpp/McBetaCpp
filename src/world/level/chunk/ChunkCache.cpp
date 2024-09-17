@@ -75,12 +75,12 @@ std::shared_ptr<LevelChunk> ChunkCache::getChunk(int_t x, int_t z)
 
 		if (!chunks[ri]->terrainPopulated && hasChunk(x + 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x + 1, z))
 			postProcess(*this, x, z);
-		// if (hasChunk(x - 1, z) && !(getChunk(x - 1, z))->terrainPopulated && hasChunk(x - 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x - 1, z))
-		// 	postProcess(*this, x - 1, z);
-		// if (hasChunk(x, z - 1) && !(getChunk(x, z - 1))->terrainPopulated && hasChunk(x + 1, z - 1) && hasChunk(x, z - 1) && hasChunk(x + 1, z))
-		// 	postProcess(*this, x, z - 1);
-		// if (hasChunk(x - 1, z - 1) && !(getChunk(x - 1, z - 1))->terrainPopulated && hasChunk(x - 1, z - 1) && hasChunk(x, z - 1) && hasChunk(x - 1, z))
-		// 	postProcess(*this, x - 1, z - 1);
+		if (hasChunk(x - 1, z) && !(getChunk(x - 1, z))->terrainPopulated && hasChunk(x - 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x - 1, z))
+			postProcess(*this, x - 1, z);
+		if (hasChunk(x, z - 1) && !(getChunk(x, z - 1))->terrainPopulated && hasChunk(x + 1, z - 1) && hasChunk(x, z - 1) && hasChunk(x + 1, z))
+			postProcess(*this, x, z - 1);
+		if (hasChunk(x - 1, z - 1) && !(getChunk(x - 1, z - 1))->terrainPopulated && hasChunk(x - 1, z - 1) && hasChunk(x, z - 1) && hasChunk(x - 1, z))
+			postProcess(*this, x - 1, z - 1);
 	}
 
 	xLast = x;
