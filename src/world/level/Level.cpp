@@ -10,6 +10,9 @@
 
 #include "util/Mth.h"
 
+#include <cmath>
+#include <algorithm>
+
 int_t Level::maxLoop = 0;
 
 std::shared_ptr<CompoundTag> Level::getDataTagFor(File &workingDirectory, const jstring &name)
@@ -129,7 +132,7 @@ Level::Level(File *workingDirectory, const jstring &name, long_t seed, int_t dim
 	workingDirectory->mkdirs();
 	dir.reset(File::open(*workingDirectory, name));
 	dir->mkdirs();
-	
+
 	{
 		std::unique_ptr<File> session_lock(File::open(*dir, u"session.lock"));
 		std::unique_ptr<std::ostream> os(session_lock->toStreamOut());
@@ -930,7 +933,7 @@ Vec3 *Level::getSkyColor(Entity &entity, float a)
 	int_t z = Mth::floor(entity.z);
 
 	float temperature = getBiomeSource().getTemperature(x, z);
-	
+
 	float r = 0.0f;
 	float g = 0.0f;
 	float b = 1.0f;

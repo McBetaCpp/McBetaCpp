@@ -9,11 +9,11 @@ project(McBetaCpp
 set(McBetaCpp_SOURCES
 	"src/client/Minecraft.cpp"
 	"src/client/Minecraft.h"
-	
+
 	"src/Facing.h"
 	"src/SharedConstants.cpp"
 	"src/SharedConstants.h"
-	
+
 	"src/client/Lighting.cpp"
 	"src/client/Lighting.h"
 	"src/client/MemoryTracker.cpp"
@@ -35,7 +35,7 @@ set(McBetaCpp_SOURCES
 	"src/client/gamemode/GameMode.h"
 	"src/client/gamemode/SurvivalMode.cpp"
 	"src/client/gamemode/SurvivalMode.h"
-	
+
 	"src/client/gui/Button.cpp"
 	"src/client/gui/Button.h"
 	"src/client/gui/ConfirmScreen.cpp"
@@ -67,7 +67,7 @@ set(McBetaCpp_SOURCES
 
 	"src/client/locale/Language.cpp"
 	"src/client/locale/Language.h"
-	
+
 	"src/client/model/Cube.cpp"
 	"src/client/model/Cube.h"
 	"src/client/model/HumanoidModel.cpp"
@@ -78,14 +78,14 @@ set(McBetaCpp_SOURCES
 	"src/client/model/Polygon.h"
 	"src/client/model/Vertex.cpp"
 	"src/client/model/Vertex.h"
-	
+
 	"src/client/player/Input.cpp"
 	"src/client/player/Input.h"
 	"src/client/player/KeyboardInput.cpp"
 	"src/client/player/KeyboardInput.h"
 	"src/client/player/LocalPlayer.cpp"
 	"src/client/player/LocalPlayer.h"
-	
+
 	"src/client/renderer/Chunk.cpp"
 	"src/client/renderer/Chunk.h"
 	"src/client/renderer/DirtyChunkSorter.h"
@@ -112,7 +112,7 @@ set(McBetaCpp_SOURCES
 	"src/client/renderer/culling/FrustumCuller.h"
 	"src/client/renderer/culling/FrustumData.cpp"
 	"src/client/renderer/culling/FrustumData.h"
-	
+
 	"src/client/renderer/entity/EntityRenderDispatcher.cpp"
 	"src/client/renderer/entity/EntityRenderDispatcher.h"
 	"src/client/renderer/entity/EntityRenderer.cpp"
@@ -137,7 +137,7 @@ set(McBetaCpp_SOURCES
 	"src/client/title/TitleScreen.h"
 
 	"src/locale/Descriptive.h"
-	
+
 	"src/nbt/ByteArrayTag.cpp"
 	"src/nbt/ByteArrayTag.h"
 	"src/nbt/ByteTag.cpp"
@@ -186,7 +186,7 @@ set(McBetaCpp_SOURCES
 
 	"src/world/item/ItemInstance.cpp"
 	"src/world/item/ItemInstance.h"
-	
+
 	"src/world/level/ChunkPos.h"
 	"src/world/level/Coord.h"
 	"src/world/level/FoliageColor.cpp"
@@ -210,7 +210,7 @@ set(McBetaCpp_SOURCES
 	"src/world/level/chunk/storage/OldChunkStorage.cpp"
 	"src/world/level/chunk/storage/OldChunkStorage.h"
 	"src/world/level/chunk/storage/ChunkStorage.h"
-	
+
 	"src/world/level/chunk/ChunkCache.cpp"
 	"src/world/level/chunk/ChunkCache.h"
 	"src/world/level/chunk/ChunkSource.h"
@@ -223,13 +223,13 @@ set(McBetaCpp_SOURCES
 
 	"src/world/level/dimension/Dimension.cpp"
 	"src/world/level/dimension/Dimension.h"
-	
+
 	"src/world/level/levelgen/feature/CaveFeature.cpp"
 	"src/world/level/levelgen/feature/CaveFeature.h"
 	"src/world/level/levelgen/feature/Feature.h"
 	"src/world/level/levelgen/feature/TreeFeature.cpp"
 	"src/world/level/levelgen/feature/TreeFeature.h"
-	
+
 	"src/world/level/levelgen/synth/ImprovedNoise.cpp"
 	"src/world/level/levelgen/synth/ImprovedNoise.h"
 	"src/world/level/levelgen/synth/PerlinNoise.cpp"
@@ -240,12 +240,12 @@ set(McBetaCpp_SOURCES
 	"src/world/level/levelgen/synth/SimplexNoise.h"
 	"src/world/level/levelgen/synth/Synth.cpp"
 	"src/world/level/levelgen/synth/Synth.h"
-	
+
 	"src/world/level/levelgen/LargeFeature.cpp"
 	"src/world/level/levelgen/LargeFeature.h"
 	"src/world/level/levelgen/RandomLevelSource.cpp"
 	"src/world/level/levelgen/RandomLevelSource.h"
-	
+
 	"src/world/level/material/GasMaterial.cpp"
 	"src/world/level/material/GasMaterial.h"
 	"src/world/level/material/Material.cpp"
@@ -253,7 +253,7 @@ set(McBetaCpp_SOURCES
 
 	"src/world/level/tile/entity/TileEntity.cpp"
 	"src/world/level/tile/entity/TileEntity.h"
-	
+
 	"src/world/level/tile/DirtTile.cpp"
 	"src/world/level/tile/DirtTile.h"
 	"src/world/level/tile/GrassTile.cpp"
@@ -272,14 +272,14 @@ set(McBetaCpp_SOURCES
 	"src/world/level/tile/TransparentTile.h"
 	"src/world/level/tile/TreeTile.cpp"
 	"src/world/level/tile/TreeTile.h"
-	
+
 	"src/world/phys/AABB.cpp"
 	"src/world/phys/AABB.h"
 	"src/world/phys/HitResult.cpp"
 	"src/world/phys/HitResult.h"
 	"src/world/phys/Vec3.cpp"
 	"src/world/phys/Vec3.h"
-	
+
 	"src/java/BufferedImage.cpp"
 	"src/java/BufferedImage.h"
 	"src/java/File.cpp"
@@ -288,7 +288,7 @@ set(McBetaCpp_SOURCES
 	"src/java/IOUtil.h"
 	"src/java/Math.cpp"
 	"src/java/Math.h"
-	"src/Java/Random.cpp"
+	"src/java/Random.cpp"
 	"src/java/Random.h"
 	"src/java/Resource.h"
 	"src/java/Runtime.h"
@@ -297,17 +297,17 @@ set(McBetaCpp_SOURCES
 	"src/java/System.cpp"
 	"src/java/System.h"
 	"src/java/Type.h"
-	
+
 	"src/java/Win32/File.cpp"
 	"src/java/Win32/Resource.cpp"
 	"src/java/Win32/Runtime.cpp"
-	
+
 	"src/external/stb_image.cpp"
 )
 
 add_executable(McBetaCpp
 	${McBetaCpp_SOURCES}
-	
+
 	"src/pc/Main.cpp"
 	"src/pc/lwjgl/Display.cpp"
 	"src/pc/lwjgl/Display.h"

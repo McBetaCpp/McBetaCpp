@@ -11,7 +11,7 @@ DefaultTexturePack::DefaultTexturePack()
 	desc1 = u"The default look of Minecraft";
 
 	std::unique_ptr<std::istream> is(Resource::getResource(u"/pack.png"));
-	icon = std::make_unique<BufferedImage>(BufferedImage::ImageIO_read(*is));
+	icon = std::unique_ptr<BufferedImage>(new BufferedImage(BufferedImage::ImageIO_read(*is)));
 }
 
 void DefaultTexturePack::unload(Minecraft &minecraft)

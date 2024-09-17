@@ -5,6 +5,9 @@
 
 #include "client/gui/SmallButton.h"
 
+int_t ControlsScreen::BUTTON_WIDTH = 70;
+int_t ControlsScreen::ROW_WIDTH = 160;
+
 ControlsScreen::ControlsScreen(Minecraft &minecraft, std::shared_ptr<Screen> lastScreen, Options &options) : Screen(minecraft), options(options)
 {
 	this->lastScreen = lastScreen;
@@ -20,7 +23,7 @@ void ControlsScreen::init()
 	Language &language = Language::getInstance();
 
 	int_t leftPos = getLeftScreenPosition();
-	for (int_t i = 0; i < std::size(options.keyMappings); i++)
+	for (int_t i = 0; i < options.keyMappings.size(); i++)
 		buttons.push_back(std::make_shared<SmallButton>(i, leftPos + (i % 2) * ROW_WIDTH, height / 6 + 24 * (i >> 1), BUTTON_WIDTH, 20, options.getKeyMessage(i)));
 
 	buttons.push_back(std::make_shared<Button>(200, width / 2 - 100, height / 6 + 168, language.getElement(u"gui.done")));
@@ -29,7 +32,7 @@ void ControlsScreen::init()
 
 void ControlsScreen::buttonClicked(Button &button)
 {
-	for (int_t i = 0; i < std::size(options.keyMappings); i++)
+	for (int_t i = 0; i < options.keyMappings.size(); i++)
 		buttons[i]->msg = options.getKeyMessage(i);
 
 	if (button.id == 200)
@@ -63,7 +66,7 @@ void ControlsScreen::render(int_t xm, int_t ym, float a)
 	drawCenteredString(font, title, width / 2, 20, 0xFFFFFF);
 
 	int_t leftPos = getLeftScreenPosition();
-	for (int_t i = 0; i < std::size(options.keyMappings); i++)
+	for (int_t i = 0; i < options.keyMappings.size(); i++)
 		drawString(font, options.getKeyDescription(i), leftPos + (i % 2) * ROW_WIDTH + 70 + 6, height / 6 + 24 * (i >> 1) + 7, 0xFFFFFFFF);
 
 	Screen::render(xm, ym, a);

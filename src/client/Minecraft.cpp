@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 #include <thread>
+#include <filesystem>
 
 #include "SharedConstants.h"
 
@@ -32,7 +33,12 @@
 
 #include "nbt/NbtIo.h"
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
+#include <limits.h>
+#endif
 
 const jstring Minecraft::VERSION_STRING = u"Minecraft " + SharedConstants::VERSION_STRING;
 
@@ -87,7 +93,7 @@ void Minecraft::init()
 	options.open(workingDirectory.get());
 	texturePackRepository.updateListAndSelect();
 
-	font = std::make_unique<Font>(options, u"/font/default.png", textures);
+	font = std::unique_ptr<Font>(new Font(options, u"/font/default.png", textures));
 
 	// renderLoadingScreen();
 
@@ -136,9 +142,9 @@ void Minecraft::renderLoadingScreen()
 	glViewport(0, 0, width, height);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	
+
 	Tesselator &tesselator = Tesselator::instance;
-	
+
 	glDisable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_FOG);
@@ -180,24 +186,40 @@ void Minecraft::blit(int_t x, int_t y, int_t sx, int_t sy, int_t w, int_t h)
 	t.end();
 }
 
-std::unique_ptr<File> Minecraft::getWorkingDirectory()
-{
-	wchar_t path[MAX_PATH] = {};
-	GetModuleFileNameW(nullptr, path, MAX_PATH);
-	
-	jstring wide((char16_t*)path);
-	auto pos = wide.find_last_of(u'\\');
-	if (pos != jstring::npos)
-		wide = wide.substr(0, pos);
+std::unique_ptr<File> Minecraft::getWorkingDirectory() {
+    #ifdef _WIN32
+        wchar_t path[MAX_PATH] = {};
+        GetModuleFileNameW(nullptr, path, MAX_PATH);
 
-	// char *pref_path = SDL_GetPrefPath("Minecraft++", "Minecraft++");
-	// std::string path = pref_path;
-	// 
-	// std::unique_ptr<File> file(File::open(String::fromUTF8(path)));
-	// 
-	// SDL_free(pref_path);
-	std::unique_ptr<File> file(File::open(wide));
-	return file;
+        jstring wide((char16_t*)path);
+        auto pos = wide.find_last_of(u'\\');
+
+        if (pos != jstring::npos)
+            wide = wide.substr(0, pos);
+
+        std::unique_ptr<File> file(File::open(wide));
+        return file;
+
+    #else // Linux and Unix-like systems
+        char path[PATH_MAX] = {};
+        ssize_t count = readlink("/proc/self/exe", path, PATH_MAX);
+
+        if (count == -1) {
+            // Handle error, return nullptr or throw an exception
+            return nullptr;
+        }
+
+        std::string execPath(path, count);
+        auto pos = execPath.find_last_of('/');
+
+        if (pos != std::string::npos)
+            execPath = execPath.substr(0, pos);
+
+        jstring wide = String::fromUTF8(execPath);
+
+        std::unique_ptr<File> file(File::open(wide));
+        return file;
+    #endif
 }
 
 void Minecraft::setScreen(std::shared_ptr<Screen> screen)
@@ -636,7 +658,7 @@ void Minecraft::tick()
 		}
 	}
 
-	// 
+	//
 	if (!pause && level != nullptr)
 		gameMode->tick();
 
@@ -877,7 +899,7 @@ void Minecraft::setLevel(std::shared_ptr<Level> level, const jstring &title, std
 			this->player->resetPos();
 			gameMode->initPlayer(this->player);
 		}
-		this->player->input = std::make_unique<KeyboardInput>(options);
+		this->player->input = std::unique_ptr<KeyboardInput>(new KeyboardInput(options));
 
 		levelRenderer.setLevel(level);
 
@@ -976,14 +998,14 @@ void Minecraft::start(const jstring *name, const jstring *sessionId)
 
 void Minecraft::startAndConnectTo(const jstring *name, const jstring *sessionId, const jstring *ip)
 {
-	std::unique_ptr<Minecraft> minecraft = std::make_unique<Minecraft>(854, 480, false);
+	std::unique_ptr<Minecraft> minecraft(new Minecraft(854, 480, false));
 
 	minecraft->serverDomain = u"www.minecraft.net";
 	if (name != nullptr && sessionId != nullptr)
-		minecraft->user = std::make_unique<User>(*name, *sessionId);
+		minecraft->user = std::unique_ptr<User>(new User(*name, *sessionId));
 	else
-		minecraft->user = std::make_unique<User>(u"Player" + String::fromUTF8(std::to_string(System::currentTimeMillis() % 1000)), u"");
-	
+		minecraft->user = std::unique_ptr<User>(new User(u"Player" + String::fromUTF8(std::to_string(System::currentTimeMillis() % 1000)), u""));
+
 	if (ip != nullptr)
 	{
 		// TODO

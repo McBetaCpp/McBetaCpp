@@ -9,15 +9,13 @@
 
 class File
 {
-protected:
-	jstring path;
-
 public:
+	jstring path;
 	virtual ~File() {}
 
 	static File *open(const jstring &path);
 	static File *open(const File &parent, const jstring &child);
-	
+
 	virtual bool createNewFile() const = 0;
 	virtual bool remove() const = 0;
 

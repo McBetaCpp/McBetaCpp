@@ -20,7 +20,7 @@ protected:
 	EntityRenderDispatcher &entityRenderDispatcher;
 
 private:
-	std::shared_ptr<Model> model = std::make_unique<HumanoidModel>();
+	std::shared_ptr<Model> model = std::shared_ptr<HumanoidModel>(new HumanoidModel());
 	TileRenderer tileRenderer;
 
 protected:

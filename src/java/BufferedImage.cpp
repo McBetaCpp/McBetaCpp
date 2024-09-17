@@ -15,7 +15,7 @@ BufferedImage::BufferedImage(int_t width, int_t height)
 {
 	this->width = width;
 	this->height = height;
-	this->raw_pixels = std::make_unique<unsigned char[]>(width * height * 4);
+	this->raw_pixels = std::unique_ptr<unsigned char[]>(new unsigned char[width * height * 4]);
 }
 
 int_t BufferedImage::getWidth() const
@@ -98,7 +98,7 @@ BufferedImage BufferedImage::ImageIO_read(std::istream &in)
 
 	if (comp == 3)
 	{
-		data = std::make_unique<unsigned char[]>(w * h * 4);
+		data = std::unique_ptr<unsigned char[]>(new unsigned char[w * h * 4]);
 		for (int i = 0; i < w * h; i++)
 		{
 			data[i * 4 + 0] = raw_data[i * 3 + 0];

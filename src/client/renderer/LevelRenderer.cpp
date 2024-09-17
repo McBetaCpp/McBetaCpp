@@ -19,13 +19,13 @@ LevelRenderer::LevelRenderer(Minecraft &mc, Textures &textures) : mc(mc), textur
 	occlusionCheck = false;
 
 	starList = MemoryTracker::genLists(3);
-	
+
 	glPushMatrix();
 
 	glNewList(starList, GL_COMPILE);
 	renderStars();
 	glEndList();
-	
+
 	glPopMatrix();
 
 	Tesselator &t = Tesselator::instance;
@@ -136,7 +136,7 @@ void LevelRenderer::setLevel(std::shared_ptr<Level> level)
 	EntityRenderDispatcher::instance.setLevel(level);
 
 	this->level = level;
-	this->tileRenderer = std::make_unique<TileRenderer>(this->level.get());
+	this->tileRenderer = std::unique_ptr<TileRenderer>(new TileRenderer(this->level.get()));
 
 	if (level != nullptr)
 	{
@@ -187,7 +187,7 @@ void LevelRenderer::allChanged()
 			for (int_t z = 0; z < zChunks; z++)
 			{
 				chunks[(z * yChunks + y) * xChunks + x] = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
-				
+
 				if (occlusionCheck)
 					chunks[(z * yChunks + y) * xChunks + x]->occlusion_id = occlusionCheckIds[count];
 				chunks[(z * yChunks + y) * xChunks + x]->occlusion_querying = false;
@@ -390,7 +390,7 @@ int_t LevelRenderer::render(Player &player, int_t layer, double alpha)
 		AABB *bb = AABB::newTemp(-xOff + (float)lu.x0, -yOff + (float)lu.y0, -zOff + (float)lu.z0, -xOff + (float)lu.x1 + 1.0f, -yOff + (float)lu.y1 + 1.0f, -zOff + (float)lu.z1 + 1.0f);
 		render(*bb);
 	}
-	
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	// glEnable(GL_BLEND);
@@ -449,7 +449,7 @@ int_t LevelRenderer::renderChunks(int_t from, int_t to, int_t layer, double alph
 	for (int_t i = 0; i < renderChunksList.size(); i++)
 	{
 		auto &chunk = renderChunksList[i];
-		
+
 		int_t list = -1;
 		for (int_t l = 0; l < lists; l++)
 		{
@@ -506,22 +506,22 @@ void LevelRenderer::renderSky(float alpha)
 	}
 
 	glColor3f(sr, sg, sb);
-	
+
 	Tesselator &t = Tesselator::instance;
 
 	glDepthMask(false);
 	glEnable(GL_FOG);
 	glColor3f(sr, sg, sb);
-	
+
 	glCallList(skyList);
-	
+
 	glDisable(GL_FOG);
 	glDisable(GL_ALPHA_TEST);
 
 	// Sunrise
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	float *c = level->dimension->getSunriseColor(level->getTimeOfDay(alpha), alpha);
 	if (c != nullptr)
 	{
@@ -556,16 +556,16 @@ void LevelRenderer::renderSky(float alpha)
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_ONE, GL_ONE);
 	glPushMatrix();
-	
+
 	xp = 0.0f;
 	yp = 0.0f;
 	float zp = 0.0f;
-	
+
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glTranslatef(xp, yp, zp);
 	glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
 	glRotatef(level->getTimeOfDay(alpha) * 360.0f, 1.0f, 0.0f, 0.0f);
-	
+
 	float ss = 30.0f;
 
 	glBindTexture(GL_TEXTURE_2D, textures.loadTexture(u"/terrain/sun.png"));
@@ -647,7 +647,7 @@ void LevelRenderer::renderClouds(float alpha)
 	}
 
 	float scale = 1.0f / 2048.0f;
-	
+
 	double xo = mc.player->xo + (mc.player->x - mc.player->xo) * alpha + ((ticks + alpha) * 0.03f);
 	double zo = mc.player->zo + (mc.player->z - mc.player->zo) * alpha;
 	int_t xOffs = Mth::floor(xo / 2048.0);
@@ -770,7 +770,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 				}
 
 				t.color(cr * 0.9F, cg * 0.9F, cb * 0.9F, 0.8F);
-				
+
 				if (xPos > -1)
 				{
 					t.normal(-1.0F, 0.0F, 0.0F);
@@ -960,7 +960,7 @@ bool LevelRenderer::updateDirtyChunks(Player &player, bool force)
 		}
 		while (--cursor >= target)
 			dirtyChunks.erase(dirtyChunks.begin() + cursor);
-	
+
 		return pendingChunkSize == (pendingChunkRemoved + secondaryRemoved);
 	}
 }
@@ -1025,7 +1025,7 @@ void LevelRenderer::renderHitOutline(Player &player, HitResult &h, int_t mode, I
 		glLineWidth(2.0f);
 		glDisable(GL_TEXTURE_2D);
 		glDepthMask(false);
-		
+
 		float ss = 0.002F;
 		int tileId = level->getTile(h.x, h.y, h.z);
 		if (tileId > 0)

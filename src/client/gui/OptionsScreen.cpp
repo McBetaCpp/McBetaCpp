@@ -9,6 +9,19 @@
 #include "client/gui/SmallButton.h"
 #include "client/gui/SlideButton.h"
 
+Options::Option::Element* Options::Option::values[10] = {
+    &Options::Option::MUSIC,
+    &Options::Option::SOUND,
+    &Options::Option::INVERT_MOUSE,
+    &Options::Option::SENSITIVITY,
+    &Options::Option::RENDER_DISTANCE,
+    &Options::Option::VIEW_BOBBING,
+    &Options::Option::ANAGLYPH,
+    &Options::Option::LIMIT_FRAMERATE,
+    &Options::Option::DIFFICULTY,
+    &Options::Option::GRAPHICS
+};
+
 OptionsScreen::OptionsScreen(Minecraft &minecraft, std::shared_ptr<Screen> lastScreen, Options &options) : Screen(minecraft), options(options)
 {
 	this->lastScreen = lastScreen;
@@ -20,7 +33,7 @@ void OptionsScreen::init()
 	Language &l = Language::getInstance();
 	title = l.getElement(u"options.title");
 
-	for (int_t i = 0; i < std::size(Options::Option::values); i++)
+	for (int_t i = 0; i < 10; i++)
 	{
 		auto &item = *Options::Option::values[i];
 		if (!item.isProgress)

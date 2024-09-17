@@ -91,8 +91,8 @@ void OldChunkStorage::save(Level &level, LevelChunk &chunk)
 
 	std::unique_ptr<File> tmp_file(File::open(*dir, u"tmp_chunk.dat"));
 	std::unique_ptr<std::ostream> os(tmp_file->toStreamOut());
-	
-	std::unique_ptr<CompoundTag> rootTag = std::make_unique<CompoundTag>();
+
+	std::unique_ptr<CompoundTag> rootTag = std::unique_ptr<CompoundTag>(new CompoundTag());
 	std::shared_ptr<CompoundTag> levelTag = std::make_shared<CompoundTag>();
 
 	rootTag->put(u"Level", levelTag);

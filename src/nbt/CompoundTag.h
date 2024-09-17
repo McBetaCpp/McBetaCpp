@@ -3,6 +3,7 @@
 #include "nbt/Tag.h"
 
 #include <unordered_map>
+#include <vector>
 
 class ListTag;
 

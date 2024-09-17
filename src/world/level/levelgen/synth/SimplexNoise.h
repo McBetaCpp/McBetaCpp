@@ -8,11 +8,7 @@
 class SimplexNoise
 {
 private:
-	static constexpr int_t grad3[12][3] = {
-		{ 1, 1, 0 }, { -1, 1, 0 }, { 1, -1, 0 }, { -1, -1, 0 },
-		{ 1, 0, 1 }, { -1, 0, 1 }, { 1, 0, -1 }, { -1, 0, -1 },
-		{ 0, 1, 1 }, { 0, -1, 1 }, { 0, 1, -1 }, { 0, -1, -1 }
-	};
+	static int_t grad3[12][3];
 
 	std::array<int_t, 512> p;
 

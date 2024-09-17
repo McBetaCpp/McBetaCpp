@@ -42,7 +42,7 @@ public:
 
 private:
 	bool fullscreen = false;
-	
+
 public:
 	int_t width = 0;
 	int_t height = 0;
@@ -67,7 +67,7 @@ public:
 	std::unique_ptr<Font> font;
 
 	std::shared_ptr<Screen> screen;
-	std::shared_ptr<ProgressRenderer> progressRenderer = std::make_unique<ProgressRenderer>(*this);
+    std::shared_ptr<ProgressRenderer> progressRenderer = std::shared_ptr<ProgressRenderer>(new ProgressRenderer(*this));
 
 	GameRenderer gameRenderer = GameRenderer(*this);
 
@@ -101,7 +101,7 @@ public:
 
 public:
 	jstring fpsString = u"";
-	
+
 private:
 	bool wasDown = false;
 	long_t lastTimer = -1;
@@ -111,7 +111,7 @@ public:
 
 private:
 	int_t lastClickTick = 0;
-	
+
 public:
 	bool isRaining = false;
 
@@ -125,7 +125,7 @@ public:
 	void onCrash(const std::string &msg, const std::exception &e);
 
 	void init();
-	
+
 private:
 	void renderLoadingScreen();
 	void blit(int_t dstx, int_t dsty, int_t srcx, int_t srcy, int_t w, int_t h);
@@ -144,10 +144,10 @@ public:
 	void renderFpsMeter(long tickNanos);
 
 	void stop();
-	
+
 	void grabMouse();
 	void releaseMouse();
-	
+
 	void pauseGame();
 
 	void handleMouseDown(int_t button, bool down);

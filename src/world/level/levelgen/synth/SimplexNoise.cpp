@@ -1,5 +1,11 @@
 #include "world/level/levelgen/synth/SimplexNoise.h"
 
+int_t SimplexNoise::grad3[12][3] = {
+	{ 1, 1, 0 }, { -1, 1, 0 }, { 1, -1, 0 }, { -1, -1, 0 },
+	{ 1, 0, 1 }, { -1, 0, 1 }, { 1, 0, -1 }, { -1, 0, -1 },
+	{ 0, 1, 1 }, { 0, -1, 1 }, { 0, 1, -1 }, { 0, -1, -1 }
+};
+
 SimplexNoise::SimplexNoise() : SimplexNoise(Random())
 {
 

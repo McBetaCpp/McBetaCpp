@@ -12,9 +12,6 @@ private:
 	Options &options;
 	int_t selectedKey = -1;
 
-	static constexpr int_t BUTTON_WIDTH = 70;
-	static constexpr int_t ROW_WIDTH = 160;
-
 public:
 	ControlsScreen(Minecraft &minecraft, std::shared_ptr<Screen> lastScreen, Options &options);
 
@@ -23,7 +20,8 @@ private:
 
 public:
 	void init() override;
-
+	static int_t BUTTON_WIDTH;
+	static int_t ROW_WIDTH;
 protected:
 	void buttonClicked(Button &button) override;
 	void keyPressed(char_t eventCharacter, int_t eventKey) override;

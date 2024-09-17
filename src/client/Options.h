@@ -53,9 +53,7 @@ public:
 		static Element DIFFICULTY;
 		static Element GRAPHICS;
 
-		static constexpr Element *values[10] = {
-			&MUSIC, &SOUND, &INVERT_MOUSE, &SENSITIVITY, &RENDER_DISTANCE, &VIEW_BOBBING, &ANAGLYPH, &LIMIT_FRAMERATE, &DIFFICULTY, &GRAPHICS
-		};
+		static Element *values[10];
 	};
 
 private:

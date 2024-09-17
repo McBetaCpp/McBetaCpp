@@ -10,10 +10,6 @@ public:
 
 	static constexpr int_t surrounding(int_t type)
 	{
-		if (type == Sky)
-			return 15;
-		if (type == Block)
-			return 0;
-		return 0;
+		return (type == Sky) * 15;
 	}
 };

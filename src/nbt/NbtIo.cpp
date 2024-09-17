@@ -35,7 +35,7 @@ CompoundTag *readCompressed(std::istream &is)
 {
 	std::vector<char> buffer = IOUtil::readAllBytes(is);
 	std::string decompressed = gzip::decompress(buffer.data(), buffer.size());
-	std::unique_ptr<memstream> ms = std::make_unique<memstream>(decompressed.data(), decompressed.size());
+	std::unique_ptr<memstream> ms = std::unique_ptr<memstream>(new memstream(decompressed.data(), decompressed.size()));
 	return read(*ms);
 }
 

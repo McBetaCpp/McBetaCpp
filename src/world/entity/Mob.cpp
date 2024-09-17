@@ -4,6 +4,8 @@
 
 #include "util/Mth.h"
 
+#include <cmath>
+
 Mob::Mob(Level &level) : Entity(level)
 {
 
@@ -49,7 +51,7 @@ void Mob::baseTick()
 	oAttackAnim = attackAnim;
 
 	Entity::baseTick();
-	
+
 	if (isAlive() && isInWall())
 		hurt(nullptr, 1);
 
@@ -62,7 +64,7 @@ void Mob::baseTick()
 	if (attackTime > 0) attackTime--;
 	if (hurtTime > 0) hurtTime--;
 	if (invulnerableTime > 0) invulnerableTime--;
-	
+
 	if (health <= 0)
 	{
 		deathTime++;
@@ -103,7 +105,7 @@ void Mob::superTick()
 void Mob::tick()
 {
 	Entity::tick();
-	
+
 	aiStep();
 
 	double fxd = x - xo;
