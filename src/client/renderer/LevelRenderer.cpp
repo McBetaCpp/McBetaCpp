@@ -178,6 +178,7 @@ void LevelRenderer::allChanged()
 	for (auto &chunk : dirtyChunks)
 		chunk->dirty = false;
 	dirtyChunks.clear();
+
 	renderableTileEntities.clear();
 
 	for (int_t x = 0; x < xChunks; x++)
@@ -186,18 +187,19 @@ void LevelRenderer::allChanged()
 		{
 			for (int_t z = 0; z < zChunks; z++)
 			{
-				chunks[(z * yChunks + y) * xChunks + x] = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
-				
-				if (occlusionCheck)
-					chunks[(z * yChunks + y) * xChunks + x]->occlusion_id = occlusionCheckIds[count];
-				chunks[(z * yChunks + y) * xChunks + x]->occlusion_querying = false;
-				chunks[(z * yChunks + y) * xChunks + x]->occlusion_visible = true;
-				chunks[(z * yChunks + y) * xChunks + x]->visible = true;
-				chunks[(z * yChunks + y) * xChunks + x]->id = count++;
-				chunks[(z * yChunks + y) * xChunks + x]->setDirty();
+				auto chunk = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
+				chunks[(z * yChunks + y) * xChunks + x] = chunk;
 
-				sortedChunks[(z * yChunks + y) * xChunks + x] = chunks[(z * yChunks + y) * xChunks + x];
-				dirtyChunks.push_back(chunks[(z * yChunks + y) * xChunks + x]);
+				if (occlusionCheck)
+					chunk->occlusion_id = occlusionCheckIds[count];
+				chunk->occlusion_querying = false;
+				chunk->occlusion_visible = true;
+				chunk->visible = true;
+				chunk->id = count++;
+				chunk->setDirty();
+
+				sortedChunks[(z * yChunks + y) * xChunks + x] = chunk;
+				dirtyChunks.push_back(chunk);
 
 				id += 3;
 			}
@@ -298,11 +300,7 @@ void LevelRenderer::resortChunks(int_t xc, int_t yc, int_t zc)
 			for (int_t y = 0; y < yChunks; y++)
 			{
 				int_t yy = y * 16;
-				int_t yOff = yy + s1 - yc;
-				if (yOff < 0) yOff -= s2 - 1;
 
-				yOff /= s2;
-				yy -= yOff * s2;
 				if (yy < yMinChunk) yMinChunk = yy;
 				if (yy > yMaxChunk) yMaxChunk = yy;
 
@@ -315,8 +313,6 @@ void LevelRenderer::resortChunks(int_t xc, int_t yc, int_t zc)
 		}
 	}
 }
-
-#include <cassert>
 
 int_t LevelRenderer::render(Player &player, int_t layer, double alpha)
 {
