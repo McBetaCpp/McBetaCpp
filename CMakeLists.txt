@@ -301,10 +301,6 @@ set(McBetaCpp_SOURCES
 	"src/java/System.h"
 	"src/java/Type.h"
 	
-	"src/java/Win32/File.cpp"
-	"src/java/Win32/Resource.cpp"
-	"src/java/Win32/Runtime.cpp"
-	
 	"src/external/stb_image.cpp"
 )
 
@@ -312,6 +308,9 @@ add_executable(McBetaCpp
 	${McBetaCpp_SOURCES}
 	
 	"src/pc/Main.cpp"
+
+	"src/pc/external/SDLException.h"
+
 	"src/pc/lwjgl/Display.cpp"
 	"src/pc/lwjgl/Display.h"
 	"src/pc/lwjgl/GLContext.cpp"
@@ -320,10 +319,35 @@ add_executable(McBetaCpp
 	"src/pc/lwjgl/Keyboard.h"
 	"src/pc/lwjgl/Mouse.cpp"
 	"src/pc/lwjgl/Mouse.h"
+
+	"src/pc/win32/java/File.cpp"
+	"src/pc/win32/java/Resource.cpp"
+	"src/pc/win32/java/Runtime.cpp"
 )
 target_include_directories(McBetaCpp PRIVATE "src/pc")
 
 target_include_directories(McBetaCpp PRIVATE "src")
+
+# Compile platform specific code
+if(WIN32)
+	target_sources(McBetaCpp PRIVATE
+		"src/pc/win32/java/File.cpp"
+		"src/pc/win32/java/Resource.cpp"
+		"src/pc/win32/java/Runtime.cpp"
+	)
+
+	target_compile_definitions(McBetaCpp PRIVATE MC_WIN32)
+elseif(APPLE)
+	message(FATAL_ERROR "MacOS is not supported yet.")
+elseif(UNIX)
+	target_sources(McBetaCpp PRIVATE
+		"src/pc/linux/java/File.cpp"
+		"src/pc/linux/java/Resource.cpp"
+		"src/pc/linux/java/Runtime.cpp"
+	)
+	
+	target_compile_definitions(McBetaCpp PRIVATE MC_LINUX)
+endif()
 
 # Use C++11
 set_target_properties(McBetaCpp PROPERTIES

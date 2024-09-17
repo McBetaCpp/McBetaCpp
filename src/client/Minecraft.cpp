@@ -30,15 +30,13 @@
 #include "lwjgl/Display.h"
 #include "lwjgl/Keyboard.h"
 
-#include "nbt/NbtIo.h"
-
-#include <Windows.h>
-
 const jstring Minecraft::VERSION_STRING = u"Minecraft " + SharedConstants::VERSION_STRING;
 
 std::array<long, 512> Minecraft::frameTimes = {};
 std::array<long, 512> Minecraft::tickTimes = {};
 int_t Minecraft::frameTimePos = 0;
+
+std::shared_ptr<File> Minecraft::workDir;
 
 Minecraft::Minecraft(int_t width, int_t height, bool fullscreen)
 {
@@ -180,24 +178,16 @@ void Minecraft::blit(int_t x, int_t y, int_t sx, int_t sy, int_t w, int_t h)
 	t.end();
 }
 
-std::unique_ptr<File> Minecraft::getWorkingDirectory()
+const std::shared_ptr<File> &Minecraft::getWorkingDirectory()
 {
-	wchar_t path[MAX_PATH] = {};
-	GetModuleFileNameW(nullptr, path, MAX_PATH);
-	
-	jstring wide((char16_t*)path);
-	auto pos = wide.find_last_of(u'\\');
-	if (pos != jstring::npos)
-		wide = wide.substr(0, pos);
+	if (workDir == nullptr)
+	{
+		workDir.reset(File::openWorkingDirectory(u".mcbetacpp"));
+		if (!workDir->exists() && !workDir->mkdirs())
+			throw std::runtime_error(String::toUTF8(u"The working directory could not be created: " + workDir->toString()));
+	}
 
-	// char *pref_path = SDL_GetPrefPath("Minecraft++", "Minecraft++");
-	// std::string path = pref_path;
-	// 
-	// std::unique_ptr<File> file(File::open(String::fromUTF8(path)));
-	// 
-	// SDL_free(pref_path);
-	std::unique_ptr<File> file(File::open(wide));
-	return file;
+	return workDir;
 }
 
 void Minecraft::setScreen(std::shared_ptr<Screen> screen)

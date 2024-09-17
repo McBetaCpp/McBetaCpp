@@ -17,6 +17,9 @@ public:
 
 	static File *open(const jstring &path);
 	static File *open(const File &parent, const jstring &child);
+
+	static File *openResourceDirectory();
+	static File *openWorkingDirectory(const jstring &name);
 	
 	virtual bool createNewFile() const = 0;
 	virtual bool remove() const = 0;

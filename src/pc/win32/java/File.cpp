@@ -10,11 +10,15 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <stdexcept>
 
 #include "util/Memory.h"
 
 static jstring FromWPath(const std::wstring &wstr)
 {
+	if (wstr.empty())
+		return u"";
+
 	/*
 	// Convert wide path to string
 	int length = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
@@ -32,11 +36,17 @@ static jstring FromWPath(const std::wstring &wstr)
 	std::u16string u16str(wstr.begin(), wstr.end());
 
 	// Remove prefix
-	return u16str.substr(4);
+	if (u16str.compare(0, 4, u"\\\\?\\") == 0)
+		return u16str.substr(4);
+	else
+		return u16str;
 }
 
 static std::wstring ToWPath(const jstring &path)
 {
+	if (path.empty())
+		return L"";
+
 	/*
 	// Convert path to wide string
 	int length = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
@@ -240,4 +250,44 @@ File *File::open(const File &parent, const jstring &child)
 {
 	jstring new_path = parent.path + u'/' + child;
 	return new File_Impl(new_path);
+}
+
+File *File::openResourceDirectory()
+{
+	// Get the path to the executable
+	std::wstring path(MAX_PATH, 0);
+	while (1)
+	{
+		DWORD length = GetModuleFileNameW(nullptr, &path.front(), static_cast<DWORD>(path.size()));
+		if (length < path.size())
+		{
+			path.resize(length);
+			break;
+		}
+		path.resize(path.size() * 2);
+	}
+
+	// Convert to UTF-16
+	jstring u16str = FromWPath(path);
+
+	// Remove the executable name
+	size_t pos = u16str.find_last_of(u"/\\");
+	if (pos == std::string::npos)
+		return new File_Impl(u"");
+
+	// Return resource directory
+	return new File_Impl(u16str.substr(0, pos) + u"/resource");
+}
+
+File *File::openWorkingDirectory(const jstring &name)
+{
+	// Get appdata directory
+	wchar_t path[MAX_PATH] = {};
+	if (SHGetFolderPathW(nullptr, CSIDL_APPDATA, nullptr, SHGFP_TYPE_CURRENT, path) != S_OK)
+		return new File_Impl(u"");
+
+	// Convert to UTF-16
+	jstring u16str = FromWPath(path);
+
+	return new File_Impl(u16str + u"/" + name);
 }

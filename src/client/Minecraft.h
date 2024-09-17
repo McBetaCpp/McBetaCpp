@@ -92,11 +92,14 @@ public:
 	MouseHandler mouseHandler = MouseHandler(*this);
 	TexturePackRepository texturePackRepository = TexturePackRepository(*this);
 
-	std::unique_ptr<File> workingDirectory;
+	std::shared_ptr<File> workingDirectory;
 
 	static std::array<long, 512> frameTimes;
 	static std::array<long, 512> tickTimes;
 	static int_t frameTimePos;
+
+private:
+	static std::shared_ptr<File> workDir;
 
 public:
 	volatile bool running = true;
@@ -133,7 +136,7 @@ private:
 	void blit(int_t dstx, int_t dsty, int_t srcx, int_t srcy, int_t w, int_t h);
 
 public:
-	static std::unique_ptr<File> getWorkingDirectory();
+	static const std::shared_ptr<File> &getWorkingDirectory();
 
 	void setScreen(std::shared_ptr<Screen> screen);
 

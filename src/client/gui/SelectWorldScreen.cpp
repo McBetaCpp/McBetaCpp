@@ -22,7 +22,7 @@ void SelectWorldScreen::init()
 	jstring str_empty = language.getElement(u"selectWorld.empty");
 	jstring str_world = language.getElement(u"selectWorld.world");
 
-	std::unique_ptr<File> workingDirectory = minecraft.getWorkingDirectory();
+	auto &workingDirectory = minecraft.getWorkingDirectory();
 
 	for (byte_t i = 0; i < 5; i++)
 	{
@@ -45,7 +45,7 @@ void SelectWorldScreen::init()
 
 jstring SelectWorldScreen::getWorldName(int_t i)
 {
-	std::unique_ptr<File> workingDirectory = minecraft.getWorkingDirectory();
+	auto &workingDirectory = minecraft.getWorkingDirectory();
 	std::shared_ptr<CompoundTag> tag = Level::getDataTagFor(*workingDirectory, u"World" + String::toString(i));
 	if (tag == nullptr)
 		return u"";
