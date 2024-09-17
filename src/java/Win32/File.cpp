@@ -41,7 +41,11 @@ static jstring FromWPath(const std::wstring &wstr)
 	std::u16string u16str(wstr.begin(), wstr.end());
 
 	// Remove prefix
+	#ifdef _WIN32
+	return u16str.substr(4);
+	#else
 	return u16str;
+	#endif
 }
 
 static std::wstring ToWPath(const jstring &path)
@@ -73,15 +77,18 @@ static std::wstring ToWPath(const jstring &path)
 
     // Get the absolute path (canonicalized)
     char* result = realpath(cpath.c_str(), &resolved_path[0]);
-    std::cout << "PATH( " << cpath << ") is the path\n";
     if (result == nullptr) {
-        std::cout << "ERROR( " << strerror(errno) << ") is the error\n";
-        resolved_path = cpath;
-//        throw std::runtime_error("Failed to convert path to canonical path: " + cpath);
-    } else {
+		std::cout << "Error while reading path: " << cpath << "\n" << strerror(errno) << "\n";
+		resolved_path = cpath;
+		// throw std::runtime_error("Failed to convert path to canonical path: " + cpath);
 
-    // Resize the string to the correct length
-    resolved_path.resize(std::strlen(result));
+		// I commented this out because on linux realpath
+		// errors out when reading nonexistent paths.
+		// But this function is used in some places to
+		// check if a path exists...
+    } else {
+    	// Resize the string to the correct length
+    	resolved_path.resize(std::strlen(result));
     }
 
     // Remove trailing slashes
@@ -394,7 +401,6 @@ File *File::open(const File &parent, const jstring &child)
     if (!str.empty() && str.front() == '/') {
         str.erase(0, 1); // Remove the first character (slash)
     }
-    std::cout << "File::Open at path " << String::toUTF8(parent.path) << " / " << str << "\n";
 	jstring new_path = parent.path + u'/' + String::fromUTF8(str);
 	return new File_Impl(new_path);
 }

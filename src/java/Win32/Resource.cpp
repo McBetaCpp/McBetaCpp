@@ -69,7 +69,6 @@ static jstring GetResourceRoot()
     // Extract the directory path and convert back to UTF-8
     std::wstring dir_path = wpath.substr(0, pos);
     std::string result = wstr_to_str(dir_path);
-    std::cout << "Parent dir: " << result << "\n";
 
     return String::fromUTF8(result);
 	#endif
@@ -77,9 +76,7 @@ static jstring GetResourceRoot()
 
 static const File &ResourceFile()
 {
-    auto resource_path = GetResourceRoot() + u"/resource";
-    std::cout << "Opening resource dir: " << String::toUTF8(resource_path) << "\n";
-	static std::unique_ptr<File> resource_file(File::open(resource_path));
+	static std::unique_ptr<File> resource_file(File::open(GetResourceRoot() + u"/resource"));
 	return *resource_file;
 }
 
@@ -89,7 +86,6 @@ namespace Resource
 std::istream *getResource(const jstring &name)
 {
 	const File &resource_file = ResourceFile();
-	std::cout << "Opening file " << String::toUTF8(name) << " at " << String::toUTF8(resource_file.path) << "\n";
 	std::unique_ptr<File> file(File::open(resource_file, name));
 	std::unique_ptr<std::istream> is(file->toStreamIn());
 	if (!is)
