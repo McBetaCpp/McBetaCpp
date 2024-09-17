@@ -241,6 +241,8 @@ set(McBetaCpp_SOURCES
 	"src/world/level/levelgen/synth/Synth.cpp"
 	"src/world/level/levelgen/synth/Synth.h"
 	
+	"src/world/level/levelgen/LargeCaveFeature.cpp"
+	"src/world/level/levelgen/LargeCaveFeature.h"
 	"src/world/level/levelgen/LargeFeature.cpp"
 	"src/world/level/levelgen/LargeFeature.h"
 	"src/world/level/levelgen/RandomLevelSource.cpp"

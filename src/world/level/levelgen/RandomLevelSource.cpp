@@ -9,11 +9,11 @@
 #include "world/level/tile/SandTile.h"
 #include "world/level/tile/GravelTile.h"
 
-#include "world/level/levelgen/feature/CaveFeature.h"
 #include "world/level/levelgen/feature/TreeFeature.h"
+#include "world/level/levelgen/LargeCaveFeature.h"
 
-CaveFeature cave_feature_lol;
 TreeFeature tree_feature_lol;
+LargeCaveFeature large_cave_feature;
 
 RandomLevelSource::RandomLevelSource(Level &level, long_t seed) : level(level),
 	random(seed),
@@ -193,6 +193,8 @@ std::shared_ptr<LevelChunk> RandomLevelSource::getChunk(int_t x, int_t z)
 	prepareHeights(x, z, chunk->blocks.data(), temperatures);
 
 	buildSurfaces(x, z, chunk->blocks.data());
+
+	large_cave_feature.apply(*this, level, x, z, chunk->blocks);
 
 	chunk->recalcHeightmap();
 
