@@ -17,7 +17,7 @@ struct TilePos
 template <>
 struct std::hash<TilePos>
 {
-	std::size_t operator()(const TilePos &k) const
+	size_t operator()(const TilePos &k) const
 	{
 		return static_cast<size_t>(k.x * 8976890 + k.y * 981131 + k.z);
 	}

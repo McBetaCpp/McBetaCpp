@@ -20,7 +20,7 @@ void OptionsScreen::init()
 	Language &l = Language::getInstance();
 	title = l.getElement(u"options.title");
 
-	for (int_t i = 0; i < std::size(Options::Option::values); i++)
+	for (int_t i = 0; i < Util::size(Options::Option::values); i++)
 	{
 		auto &item = *Options::Option::values[i];
 		if (!item.isProgress)

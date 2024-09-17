@@ -6,6 +6,19 @@
 namespace Util
 {
 
+// Size implementation
+template<class C>
+constexpr auto size(const C &c) -> decltype(c.size())
+{
+	return c.size();
+}
+
+template<class T, std::size_t N>
+constexpr std::size_t size(const T(&array)[N]) noexcept
+{
+	return N;
+}
+
 // Taken from here https://isocpp.org/files/papers/N3656.txt
 // Make unique implementation
 template<class T> struct _Unique_if {
