@@ -6,6 +6,8 @@
 class ProgressListener
 {
 public:
+	virtual ~ProgressListener() {}
+
 	virtual void progressStartNoAbort(const jstring &title) = 0;
 	virtual void progressStart(const jstring &title) = 0;
 	virtual void progressStage(const jstring &status) = 0;

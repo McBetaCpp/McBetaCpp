@@ -100,14 +100,14 @@ void Gui::render(float a, bool inScreen, int_t xm, int_t ym)
 		font.drawShadow(minecraft.gatherStats3(), 2, 32, 0xFFFFFF);
 		font.drawShadow(minecraft.gatherStats4(), 2, 42, 0xFFFFFF);
 
-		int_t maxMemory = Runtime::getRuntime().maxMemory();
-		int_t totalMemory = Runtime::getRuntime().totalMemory();
-		int_t freeMemory = Runtime::getRuntime().freeMemory();
-		int_t usedMemory = totalMemory - freeMemory;
+		long_t maxMemory = Runtime::getRuntime().maxMemory();
+		long_t totalMemory = Runtime::getRuntime().totalMemory();
+		long_t freeMemory = Runtime::getRuntime().freeMemory();
+		long_t usedMemory = totalMemory - freeMemory;
 
-		jstring str = u"Used memory: " + String::toString(usedMemory * 100 / maxMemory) + u"% (" + String::toString(usedMemory / 1024 / 1024) + u"MB) of " + String::toString(maxMemory / 1024 / 1024) + u"MB";
+		jstring str = u"Used memory: " + String::toString(usedMemory * 100LL / maxMemory) + u"% (" + String::toString(usedMemory / 1024LL / 1024LL) + u"MB) of " + String::toString(maxMemory / 1024LL / 1024LL) + u"MB";
 		drawString(font, str, width - font.width(str) - 2, 2, 0xE0E0E0);
-		str = u"Allocated memory: " + String::toString(totalMemory * 100 / maxMemory) + u"% (" + String::toString(totalMemory / 1024 / 1024) + u"MB)";
+		str = u"Allocated memory: " + String::toString(totalMemory * 100LL / maxMemory) + u"% (" + String::toString(totalMemory / 1024LL / 1024LL) + u"MB)";
 		drawString(font, str, width - font.width(str) - 2, 12, 0xE0E0E0);
 
 		drawString(font, u"x: " + String::toString(minecraft.player->x), 2, 64, 0xE0E0E0);

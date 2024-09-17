@@ -36,6 +36,8 @@ private:
 public:
 	Dimension(Level &level);
 
+	virtual ~Dimension() {}
+
 	void initLevel();
 
 protected:

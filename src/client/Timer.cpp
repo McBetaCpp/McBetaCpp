@@ -23,7 +23,7 @@ void Timer::advanceTime()
 	lastMsSysTime = msSysTime;
 
 	ticks = static_cast<int_t>(passedTime);
-	passedTime -= ticks;
+	passedTime -= static_cast<float>(ticks);
 	if (ticks > MAX_TICKS_PER_UPDATE) ticks = MAX_TICKS_PER_UPDATE;
 	a = passedTime;
 #else

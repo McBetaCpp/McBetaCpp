@@ -51,7 +51,7 @@ void LargeCaveFeature::addTunnel(int_t cx, int_t cz, std::array<ubyte_t, 16 * 16
 		z += (Mth::sin(paramFloat2) * f3);
 		
 		if (bool2)
-			paramFloat3 *= 0.92F;
+			paramFloat3 *= 0.92f;
 		else
 			paramFloat3 *= 0.7f;
 		
@@ -63,7 +63,7 @@ void LargeCaveFeature::addTunnel(int_t cx, int_t cz, std::array<ubyte_t, 16 * 16
 		f2 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0f;
 		f1 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0f;
 		
-		if (!is_room && paramInt3 == i && paramFloat1 > 1.0F)
+		if (!is_room && paramInt3 == i && paramFloat1 > 1.0f)
 		{
 			addTunnel(cx, cz, blocks, x, y, z, random.nextFloat() * 0.5f + 0.5f, paramFloat2 - (Mth::PI * 0.5f), paramFloat3 / 3.0f, paramInt3, paramInt4, 1.0);
 			addTunnel(cx, cz, blocks, x, y, z, random.nextFloat() * 0.5f + 0.5f, paramFloat2 + (Mth::PI * 0.5f), paramFloat3 / 3.0f, paramInt3, paramInt4, 1.0);

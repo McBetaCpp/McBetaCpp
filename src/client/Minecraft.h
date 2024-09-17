@@ -139,6 +139,8 @@ private:
 	void checkGlError(const std::string &at);
 
 public:
+	~Minecraft();
+
 	void run();
 
 	void renderFpsMeter(long tickNanos);

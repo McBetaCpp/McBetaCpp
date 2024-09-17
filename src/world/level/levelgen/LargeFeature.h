@@ -14,6 +14,8 @@ protected:
 	Random random = Random();
 
 public:
+	virtual ~LargeFeature() {}
+
 	void apply(ChunkSource &chunkSource, Level &level, int_t x, int_t z, std::array<ubyte_t, 16 * 16 * 128> &blocks);
 
 protected:

@@ -18,6 +18,8 @@ public:
 
 	GameMode(Minecraft &minecraft);
 
+	virtual ~GameMode() {}
+
 	virtual void initLevel(std::shared_ptr<Level> level);
 
 	virtual void startDestroyBlock(int_t x, int_t y, int_t z, Facing face);

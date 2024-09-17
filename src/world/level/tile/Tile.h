@@ -102,6 +102,8 @@ protected:
 	Tile(int_t id, const Material &material);
 	Tile(int_t id, int_t tex, const Material &material);
 
+	virtual ~Tile() {}
+
 	Tile &setLightBlock(int_t lightBlock);
 	Tile &setLightEmission(int_t lightEmission);
 	Tile &setExplodeable(float resistance);

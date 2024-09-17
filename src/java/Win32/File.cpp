@@ -83,7 +83,7 @@ public:
 
 	}
 
-	virtual bool createNewFile() const
+	virtual bool createNewFile() const override
 	{
 		HANDLE hfile = CreateFileW(wpath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hfile == INVALID_HANDLE_VALUE)

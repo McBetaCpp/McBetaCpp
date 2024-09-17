@@ -9,6 +9,8 @@
 class LevelSource
 {
 public:
+	virtual ~LevelSource() {}
+
 	virtual int_t getTile(int_t x, int_t y, int_t z) = 0;
 	virtual std::shared_ptr<TileEntity> getTileEntity(int_t x, int_t y, int_t z) = 0;
 	virtual float getBrightness(int_t x, int_t y, int_t z) = 0;

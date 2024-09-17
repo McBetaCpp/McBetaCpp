@@ -16,6 +16,8 @@ public:
 	jstring desc2;
 	jstring id;
 
+	virtual ~TexturePack() {}
+
 	virtual void select();
 	virtual void deselect();
 	virtual void load(Minecraft &minecraft);

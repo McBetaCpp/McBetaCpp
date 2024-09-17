@@ -18,6 +18,8 @@ private:
 	bool flammableFlag = false;
 
 public:
+	virtual ~Material() {}
+
 	virtual bool isLiquid() const;
 	virtual bool letsWaterThrough() const;
 	virtual bool isSolid() const;

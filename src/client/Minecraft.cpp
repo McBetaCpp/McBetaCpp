@@ -266,6 +266,11 @@ void Minecraft::checkGlError(const std::string &at)
 	}
 }
 
+Minecraft::~Minecraft()
+{
+	MemoryTracker::release();
+}
+
 void Minecraft::run()
 {
 	// init

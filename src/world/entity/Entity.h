@@ -127,6 +127,8 @@ public:
 
 	Entity(Level &level);
 
+	virtual ~Entity() {}
+
 protected:
 	virtual void resetPos();
 

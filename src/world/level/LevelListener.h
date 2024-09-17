@@ -9,6 +9,8 @@ class TileEntity;
 class LevelListener
 {
 public:
+	virtual ~LevelListener() {}
+
 	virtual void tileChanged(int_t x, int_t y, int_t z) = 0;
 	virtual void setTilesDirty(int_t x0, int_t y0, int_t z0, int_t x1, int_t y1, int_t z1) = 0;
 	virtual void allChanged() = 0;

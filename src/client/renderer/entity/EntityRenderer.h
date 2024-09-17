@@ -30,6 +30,8 @@ protected:
 public:
 	EntityRenderer(EntityRenderDispatcher &entityRenderDispatcher);
 
+	virtual ~EntityRenderer() {}
+
 	virtual void render(Entity &entity, double x, double y, double z, float rot, float a) = 0;
 
 protected:

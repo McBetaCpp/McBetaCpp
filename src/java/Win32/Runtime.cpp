@@ -16,7 +16,8 @@ long_t Runtime::maxMemory()
 	// Get amount of system memory available
 	MEMORYSTATUSEX statex;
 	statex.dwLength = sizeof(statex);
-	GlobalMemoryStatusEx(&statex);
+	if (!GlobalMemoryStatusEx(&statex))
+		return 1;
 	return statex.ullTotalPhys;
 }
 
@@ -25,7 +26,7 @@ long_t Runtime::totalMemory()
 	// Get memory that the application currently has paged
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-	return pmc.WorkingSetSize;
+	return pmc.PeakWorkingSetSize;
 }
 
 long_t Runtime::freeMemory()
@@ -33,5 +34,5 @@ long_t Runtime::freeMemory()
 	// Get memory out of the total memory that is not currently used
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-	return 0;
+	return pmc.PeakWorkingSetSize - pmc.WorkingSetSize;
 }
