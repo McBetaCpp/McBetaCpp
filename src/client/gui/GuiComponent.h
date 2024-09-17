@@ -7,6 +7,8 @@
 
 #include "client/gui/Font.h"
 
+#include "util/Memory.h"
+
 class GuiComponent
 {
 protected:

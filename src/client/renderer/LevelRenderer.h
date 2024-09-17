@@ -20,6 +20,8 @@
 #include "java/Type.h"
 #include "java/String.h"
 
+#include "util/Memory.h"
+
 class Minecraft;
 
 class LevelRenderer : public LevelListener

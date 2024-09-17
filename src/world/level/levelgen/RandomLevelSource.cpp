@@ -185,7 +185,7 @@ std::shared_ptr<LevelChunk> RandomLevelSource::getChunk(int_t x, int_t z)
 {
 	random.setSeed(x * 341873128712LL + z * 132897987541LL);
 
-	std::shared_ptr<LevelChunk> chunk = std::make_shared<LevelChunk>(level, x, z);
+	std::shared_ptr<LevelChunk> chunk = Util::make_shared<LevelChunk>(level, x, z);
 
 	level.getBiomeSource().getBiomeBlock(x * 16, z * 16, 16, 16);
 

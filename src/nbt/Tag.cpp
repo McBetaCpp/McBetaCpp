@@ -1,7 +1,5 @@
 #include "nbt/Tag.h"
 
-#include <memory>
-
 #include "nbt/EndTag.h"
 #include "nbt/ByteTag.h"
 #include "nbt/ShortTag.h"

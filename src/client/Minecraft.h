@@ -32,6 +32,8 @@
 #include "java/System.h"
 #include "java/File.h"
 
+#include "util/Memory.h"
+
 class Minecraft
 {
 public:
@@ -67,7 +69,7 @@ public:
 	std::unique_ptr<Font> font;
 
 	std::shared_ptr<Screen> screen;
-	std::shared_ptr<ProgressRenderer> progressRenderer = std::make_unique<ProgressRenderer>(*this);
+	std::shared_ptr<ProgressRenderer> progressRenderer = Util::make_unique<ProgressRenderer>(*this);
 
 	GameRenderer gameRenderer = GameRenderer(*this);
 

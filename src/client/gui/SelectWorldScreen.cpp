@@ -1,7 +1,5 @@
 #include "client/gui/SelectWorldScreen.h"
 
-#include <memory>
-
 #include "client/Minecraft.h"
 #include "client/locale/Language.h"
 #include "client/gui/DeleteWorldScreen.h"
@@ -31,14 +29,14 @@ void SelectWorldScreen::init()
 		std::shared_ptr<CompoundTag> tag = Level::getDataTagFor(*workingDirectory, u"World" + String::toString(i + 1));
 		if (tag == nullptr)
 		{
-			buttons.push_back(std::make_shared<Button>(i, width / 2 - 100, height / 6 + 24 * i, u"- " + str_empty + u" -"));
+			buttons.push_back(Util::make_shared<Button>(i, width / 2 - 100, height / 6 + 24 * i, u"- " + str_empty + u" -"));
 		}
 		else
 		{
 			jstring name = str_world + u" " + String::toString(i + 1);
 			long_t size = tag->getLong(u"SizeOnDisk");
 			// name = name + u" (" + String::toString(static_cast<float>(size / 1024 * 100 / 1024) / 100.0f) + u" MB)";
-			buttons.push_back(std::make_shared<Button>(i, width / 2 - 100, height / 6 + 24 * i, name));
+			buttons.push_back(Util::make_shared<Button>(i, width / 2 - 100, height / 6 + 24 * i, name));
 		}
 	}
 
@@ -57,8 +55,8 @@ jstring SelectWorldScreen::getWorldName(int_t i)
 void SelectWorldScreen::postInit()
 {
 	Language &language = Language::getInstance();
-	buttons.push_back(std::make_shared<Button>(5, width / 2 - 100, height / 6 + 120 + 12, language.getElement(u"selectWorld.delete")));
-	buttons.push_back(std::make_shared<Button>(6, width / 2 - 100, height / 6 + 168, language.getElement(u"gui.cancel")));
+	buttons.push_back(Util::make_shared<Button>(5, width / 2 - 100, height / 6 + 120 + 12, language.getElement(u"selectWorld.delete")));
+	buttons.push_back(Util::make_shared<Button>(6, width / 2 - 100, height / 6 + 168, language.getElement(u"gui.cancel")));
 }
 
 void SelectWorldScreen::buttonClicked(Button &button)
@@ -68,7 +66,7 @@ void SelectWorldScreen::buttonClicked(Button &button)
 	if (button.id < 5)
 		worldSelected(button.id + 1);
 	if (button.id == 5)
-		minecraft.setScreen(std::make_shared<DeleteWorldScreen>(minecraft, minecraft.screen));
+		minecraft.setScreen(Util::make_shared<DeleteWorldScreen>(minecraft, minecraft.screen));
 	if (button.id == 6)
 		minecraft.setScreen(lastScreen);
 }
@@ -79,7 +77,7 @@ void SelectWorldScreen::worldSelected(int_t i)
 	if (!done)
 	{
 		done = true;
-		minecraft.gameMode = std::make_shared<SurvivalMode>(minecraft);
+		minecraft.gameMode = Util::make_shared<SurvivalMode>(minecraft);
 		minecraft.selectLevel(u"World" + String::toString(i));
 		minecraft.setScreen(nullptr);
 	}

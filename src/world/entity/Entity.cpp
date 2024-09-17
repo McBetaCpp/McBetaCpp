@@ -608,21 +608,21 @@ bool Entity::save(CompoundTag &tag)
 
 void Entity::saveWithoutId(CompoundTag &tag)
 {
-	std::shared_ptr<ListTag> listTag = std::make_shared<ListTag>();
-	listTag->add(std::make_shared<DoubleTag>(x));
-	listTag->add(std::make_shared<DoubleTag>(y));
-	listTag->add(std::make_shared<DoubleTag>(z));
+	std::shared_ptr<ListTag> listTag = Util::make_shared<ListTag>();
+	listTag->add(Util::make_shared<DoubleTag>(x));
+	listTag->add(Util::make_shared<DoubleTag>(y));
+	listTag->add(Util::make_shared<DoubleTag>(z));
 	tag.put(u"Pos", listTag);
 
-	listTag = std::make_shared<ListTag>();
-	listTag->add(std::make_shared<DoubleTag>(xd));
-	listTag->add(std::make_shared<DoubleTag>(yd));
-	listTag->add(std::make_shared<DoubleTag>(zd));
+	listTag = Util::make_shared<ListTag>();
+	listTag->add(Util::make_shared<DoubleTag>(xd));
+	listTag->add(Util::make_shared<DoubleTag>(yd));
+	listTag->add(Util::make_shared<DoubleTag>(zd));
 	tag.put(u"Motion", listTag);
 
-	listTag = std::make_shared<ListTag>();
-	listTag->add(std::make_shared<FloatTag>(yRot));
-	listTag->add(std::make_shared<FloatTag>(xRot));
+	listTag = Util::make_shared<ListTag>();
+	listTag->add(Util::make_shared<FloatTag>(yRot));
+	listTag->add(Util::make_shared<FloatTag>(xRot));
 	tag.put(u"Rotation", listTag);
 
 	tag.putFloat(u"FallDistance", fallDistance);

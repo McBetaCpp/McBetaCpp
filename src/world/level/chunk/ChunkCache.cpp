@@ -6,7 +6,7 @@
 
 ChunkCache::ChunkCache(Level &level, ChunkStorage *storage, ChunkSource *source) : level(level)
 {
-	emptyChunk = std::make_shared<EmptyLevelChunk>(level, 0, 0);
+	emptyChunk = Util::make_shared<EmptyLevelChunk>(level, 0, 0);
 
 	this->source = std::unique_ptr<ChunkSource>(source);
 	this->storage = std::unique_ptr<ChunkStorage>(storage);

@@ -2,9 +2,12 @@
 
 #include <string>
 #include <iostream>
+#include <memory>
 
 #include "java/Type.h"
 #include "java/String.h"
+
+#include "util/Memory.h"
 
 class Tag
 {

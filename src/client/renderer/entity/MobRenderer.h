@@ -2,8 +2,6 @@
 
 #include "client/renderer/entity/EntityRenderer.h"
 
-#include <memory>
-
 #include "client/model/Model.h"
 
 #include "world/entity/Mob.h"
@@ -18,9 +16,9 @@ protected:
 	std::shared_ptr<Model> armor;
 
 public:
-	MobRenderer(EntityRenderDispatcher &entityRenderDispatcher, std::shared_ptr<Model> model, float shadow);
+	MobRenderer(EntityRenderDispatcher &entityRenderDispatcher, const std::shared_ptr<Model> &model, float shadow);
 
-	void setArmor(std::shared_ptr<Model> armor);
+	void setArmor(const std::shared_ptr<Model> &armor);
 
 	void render(Entity &entity, double x, double y, double z, float rot, float a) override;
 

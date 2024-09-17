@@ -18,25 +18,25 @@ void PauseScreen::init()
 	saveStep = 0;
 	buttons.clear();
 	
-	buttons.push_back(std::make_shared<Button>(1, width / 2 - 100, height / 4 + 48, u"Save and quit to title"));
+	buttons.push_back(Util::make_shared<Button>(1, width / 2 - 100, height / 4 + 48, u"Save and quit to title"));
 	if (minecraft.isOnline())
 		buttons[0]->msg = u"Disconnect";
 
-	buttons.push_back(std::make_shared<Button>(4, width / 2 - 100, height / 4 + 24, u"Back to game"));
-	buttons.push_back(std::make_shared<Button>(0, width / 2 - 100, height / 4 + 96, u"Options..."));
+	buttons.push_back(Util::make_shared<Button>(4, width / 2 - 100, height / 4 + 24, u"Back to game"));
+	buttons.push_back(Util::make_shared<Button>(0, width / 2 - 100, height / 4 + 96, u"Options..."));
 }
 
 void PauseScreen::buttonClicked(Button &button)
 {
 	if (button.id == 0)
-		minecraft.setScreen(std::make_shared<OptionsScreen>(minecraft, minecraft.screen, minecraft.options));
+		minecraft.setScreen(Util::make_shared<OptionsScreen>(minecraft, minecraft.screen, minecraft.options));
 	if (button.id == 1)
 	{
 		if (minecraft.isOnline())
 			minecraft.level->disconnect();
 
 		minecraft.setLevel(nullptr);
-		minecraft.setScreen(std::make_shared<TitleScreen>(minecraft));
+		minecraft.setScreen(Util::make_shared<TitleScreen>(minecraft));
 	}
 	if (button.id == 4)
 	{

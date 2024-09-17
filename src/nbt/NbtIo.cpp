@@ -7,6 +7,8 @@
 #include "gzip/decompress.hpp"
 #include "gzip/compress.hpp"
 
+#include "util/Memory.h"
+
 class membuf : public std::basic_streambuf<char>
 {
 public:
@@ -35,7 +37,7 @@ CompoundTag *readCompressed(std::istream &is)
 {
 	std::vector<char> buffer = IOUtil::readAllBytes(is);
 	std::string decompressed = gzip::decompress(buffer.data(), buffer.size());
-	std::unique_ptr<memstream> ms = std::make_unique<memstream>(decompressed.data(), decompressed.size());
+	std::unique_ptr<memstream> ms = Util::make_unique<memstream>(decompressed.data(), decompressed.size());
 	return read(*ms);
 }
 

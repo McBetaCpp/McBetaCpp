@@ -136,7 +136,7 @@ void LevelRenderer::setLevel(std::shared_ptr<Level> level)
 	EntityRenderDispatcher::instance.setLevel(level);
 
 	this->level = level;
-	this->tileRenderer = std::make_unique<TileRenderer>(this->level.get());
+	this->tileRenderer = Util::make_unique<TileRenderer>(this->level.get());
 
 	if (level != nullptr)
 	{
@@ -187,7 +187,7 @@ void LevelRenderer::allChanged()
 		{
 			for (int_t z = 0; z < zChunks; z++)
 			{
-				auto chunk = std::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
+				auto chunk = Util::make_shared<Chunk>(*level, renderableTileEntities, x * 16, y * 16, z * 16, 16, chunkLists + id);
 				chunks[(z * yChunks + y) * xChunks + x] = chunk;
 
 				if (occlusionCheck)

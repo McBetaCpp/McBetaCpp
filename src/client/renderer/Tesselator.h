@@ -6,6 +6,8 @@
 
 #include "OpenGL.h"
 
+#include "util/Memory.h"
+
 class Tesselator
 {
 private:

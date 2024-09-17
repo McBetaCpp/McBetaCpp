@@ -6,6 +6,8 @@
 
 #include <java/Type.h>
 
+#include "util/Memory.h"
+
 class Entity;
 class Vec3;
 

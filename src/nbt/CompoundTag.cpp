@@ -168,14 +168,14 @@ const std::vector<byte_t> &CompoundTag::getByteArray(const jstring &name) const
 std::shared_ptr<CompoundTag> CompoundTag::getCompound(const jstring &name) const
 {
 	auto it = tags.find(name);
-	if (it == tags.end() || it->second->getId() != TAG_Compound) return std::make_shared<CompoundTag>();
+	if (it == tags.end() || it->second->getId() != TAG_Compound) return Util::make_shared<CompoundTag>();
 	return std::static_pointer_cast<CompoundTag>(it->second);
 }
 
 std::shared_ptr<ListTag> CompoundTag::getList(const jstring &name) const
 {
 	auto it = tags.find(name);
-	if (it == tags.end() || it->second->getId() != TAG_List) return std::make_shared<ListTag>();
+	if (it == tags.end() || it->second->getId() != TAG_List) return Util::make_shared<ListTag>();
 	return std::static_pointer_cast<ListTag>(it->second);
 }
 

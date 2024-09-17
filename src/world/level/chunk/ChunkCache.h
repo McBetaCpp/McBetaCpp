@@ -6,6 +6,8 @@
 #include "world/level/chunk/ChunkSource.h"
 #include "world/level/chunk/storage/ChunkStorage.h"
 
+#include "util/Memory.h"
+
 class Level;
 
 class ChunkCache : public ChunkSource

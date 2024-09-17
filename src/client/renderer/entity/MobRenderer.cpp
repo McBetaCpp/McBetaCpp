@@ -2,13 +2,13 @@
 
 #include "client/renderer/entity/EntityRenderDispatcher.h"
 
-MobRenderer::MobRenderer(EntityRenderDispatcher &entityRenderDispatcher, std::shared_ptr<Model> model, float shadow) : EntityRenderer(entityRenderDispatcher)
+MobRenderer::MobRenderer(EntityRenderDispatcher &entityRenderDispatcher, const std::shared_ptr<Model> &model, float shadow) : EntityRenderer(entityRenderDispatcher)
 {
 	this->model = model;
 	this->shadowRadius = shadow;
 }
 
-void MobRenderer::setArmor(std::shared_ptr<Model> armor)
+void MobRenderer::setArmor(const std::shared_ptr<Model> &armor)
 {
 	this->armor = armor;
 }

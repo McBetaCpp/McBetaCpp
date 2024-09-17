@@ -250,7 +250,7 @@ void Level::saveLevelData()
 {
 	checkSession();
 
-	std::shared_ptr<CompoundTag> data = std::make_shared<CompoundTag>();
+	std::shared_ptr<CompoundTag> data = Util::make_shared<CompoundTag>();
 	data->putLong(u"RandomSeed", seed);
 	data->putInt(u"SpawnX", xSpawn);
 	data->putInt(u"SpawnY", ySpawn);
@@ -265,12 +265,12 @@ void Level::saveLevelData()
 
 	if (player != nullptr)
 	{
-		std::shared_ptr<CompoundTag> playerTag = std::make_shared<CompoundTag>();
+		std::shared_ptr<CompoundTag> playerTag = Util::make_shared<CompoundTag>();
 		player->saveWithoutId(*playerTag);
 		data->put(u"Player", playerTag);
 	}
 
-	std::shared_ptr<CompoundTag> root = std::make_shared<CompoundTag>();
+	std::shared_ptr<CompoundTag> root = Util::make_shared<CompoundTag>();
 	root->put(u"Data", data);
 
 	std::unique_ptr<File> fileNewDat(File::open(*dir, u"level.dat_new"));

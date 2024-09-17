@@ -81,17 +81,17 @@ void TitleScreen::init()
 	Language &language = Language::getInstance();
 
 	int_t y = height / 4 + 48;
-	buttons.push_back(std::make_shared<Button>(1, width / 2 - 100, y, language.getElement(u"menu.singleplayer")));
-	buttons.push_back(std::make_shared<Button>(2, width / 2 - 100, y + 24, language.getElement(u"menu.multiplayer")));
-	buttons.push_back(std::make_shared<Button>(3, width / 2 - 100, y + 48, language.getElement(u"menu.mods")));
+	buttons.push_back(Util::make_shared<Button>(1, width / 2 - 100, y, language.getElement(u"menu.singleplayer")));
+	buttons.push_back(Util::make_shared<Button>(2, width / 2 - 100, y + 24, language.getElement(u"menu.multiplayer")));
+	buttons.push_back(Util::make_shared<Button>(3, width / 2 - 100, y + 48, language.getElement(u"menu.mods")));
 	if (false) // Applet
 	{
-		buttons.push_back(std::make_shared<Button>(0, width / 2 - 100, y + 72, language.getElement(u"menu.options")));
+		buttons.push_back(Util::make_shared<Button>(0, width / 2 - 100, y + 72, language.getElement(u"menu.options")));
 	}
 	else
 	{
-		buttons.push_back(std::make_shared<Button>(0, width / 2 - 100, y + 72 + 12, 98, 20, language.getElement(u"menu.options")));
-		buttons.push_back(std::make_shared<Button>(4, width / 2 + 2, y + 72 + 12, 98, 20, language.getElement(u"menu.quit")));
+		buttons.push_back(Util::make_shared<Button>(0, width / 2 - 100, y + 72 + 12, 98, 20, language.getElement(u"menu.options")));
+		buttons.push_back(Util::make_shared<Button>(4, width / 2 + 2, y + 72 + 12, 98, 20, language.getElement(u"menu.quit")));
 	}
 
 	if (minecraft.user == nullptr)
@@ -99,10 +99,10 @@ void TitleScreen::init()
 
 	// Level test
 	/*
-	minecraft.gameMode = std::make_shared<SurvivalMode>(minecraft);
+	minecraft.gameMode = Util::make_shared<SurvivalMode>(minecraft);
 	Level::deleteLevel(*minecraft.getWorkingDirectory(), u"World1");
 	std::unique_ptr<File> saves(File::open(*minecraft.getWorkingDirectory(), u"saves"));
-	std::shared_ptr<Level> level = std::make_shared<Level>(saves.release(), u"World1", 7746616078674770041LL);
+	std::shared_ptr<Level> level = Util::make_shared<Level>(saves.release(), u"World1", 7746616078674770041LL);
 	minecraft.setLevel(level);
 	minecraft.setScreen(nullptr);
 	*/
@@ -111,9 +111,9 @@ void TitleScreen::init()
 void TitleScreen::buttonClicked(Button &button)
 {
 	if (button.id == 0)
-		minecraft.setScreen(std::make_shared<OptionsScreen>(minecraft, minecraft.screen, minecraft.options));
+		minecraft.setScreen(Util::make_shared<OptionsScreen>(minecraft, minecraft.screen, minecraft.options));
 	if (button.id == 1)
-		minecraft.setScreen(std::make_shared<SelectWorldScreen>(minecraft, minecraft.screen));
+		minecraft.setScreen(Util::make_shared<SelectWorldScreen>(minecraft, minecraft.screen));
 	if (button.id == 2)
 	{
 		// TODO

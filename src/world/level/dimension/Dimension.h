@@ -8,6 +8,8 @@
 #include "java/Type.h"
 #include "java/File.h"
 
+#include "util/Memory.h"
+
 class Level;
 class BiomeSource;
 

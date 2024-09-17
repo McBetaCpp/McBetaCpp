@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <fstream>
 #include <cassert>
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
 
 #include "java/File.h"
+
+#include "util/Memory.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>

@@ -5,6 +5,8 @@
 
 #include "java/Type.h"
 
+#include "util/Memory.h"
+
 class BufferedImage
 {
 private:

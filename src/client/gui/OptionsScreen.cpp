@@ -24,13 +24,13 @@ void OptionsScreen::init()
 	{
 		auto &item = *Options::Option::values[i];
 		if (!item.isProgress)
-			buttons.push_back(std::make_shared<SmallButton>(i, width / 2 - 155 + i % 2 * 160, height / 6 + 24 * (i >> 1), &item, options.getMessage(item)));
+			buttons.push_back(Util::make_shared<SmallButton>(i, width / 2 - 155 + i % 2 * 160, height / 6 + 24 * (i >> 1), &item, options.getMessage(item)));
 		else
-			buttons.push_back(std::make_shared<SlideButton>(i, width / 2 - 155 + i % 2 * 160, height / 6 + 24 * (i >> 1), &item, options.getMessage(item), options.getProgressValue(item)));
+			buttons.push_back(Util::make_shared<SlideButton>(i, width / 2 - 155 + i % 2 * 160, height / 6 + 24 * (i >> 1), &item, options.getMessage(item), options.getProgressValue(item)));
 	}
 
-	buttons.push_back(std::make_shared<Button>(100, width / 2 - 100, height / 6 + 120 + 12, l.getElement(u"options.controls")));
-	buttons.push_back(std::make_shared<Button>(200, width / 2 - 100, height / 6 + 168, l.getElement(u"gui.done")));
+	buttons.push_back(Util::make_shared<Button>(100, width / 2 - 100, height / 6 + 120 + 12, l.getElement(u"options.controls")));
+	buttons.push_back(Util::make_shared<Button>(200, width / 2 - 100, height / 6 + 168, l.getElement(u"gui.done")));
 }
 
 void OptionsScreen::buttonClicked(Button &button)
@@ -48,7 +48,7 @@ void OptionsScreen::buttonClicked(Button &button)
 	if (button.id == 100)
 	{
 		minecraft.options.save();
-		minecraft.setScreen(std::make_shared<ControlsScreen>(minecraft, minecraft.screen, options));
+		minecraft.setScreen(Util::make_shared<ControlsScreen>(minecraft, minecraft.screen, options));
 	}
 	if (button.id == 200)
 	{

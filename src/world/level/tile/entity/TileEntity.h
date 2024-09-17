@@ -7,6 +7,8 @@
 
 #include "java/Type.h"
 
+#include "util/Memory.h"
+
 class Level;
 class Tile;
 

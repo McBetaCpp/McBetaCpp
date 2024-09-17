@@ -92,8 +92,8 @@ void OldChunkStorage::save(Level &level, LevelChunk &chunk)
 	std::unique_ptr<File> tmp_file(File::open(*dir, u"tmp_chunk.dat"));
 	std::unique_ptr<std::ostream> os(tmp_file->toStreamOut());
 	
-	std::unique_ptr<CompoundTag> rootTag = std::make_unique<CompoundTag>();
-	std::shared_ptr<CompoundTag> levelTag = std::make_shared<CompoundTag>();
+	std::unique_ptr<CompoundTag> rootTag = Util::make_unique<CompoundTag>();
+	std::shared_ptr<CompoundTag> levelTag = Util::make_shared<CompoundTag>();
 
 	rootTag->put(u"Level", levelTag);
 	save(chunk, level, *levelTag);
@@ -129,24 +129,24 @@ void OldChunkStorage::save(LevelChunk &chunk, Level &level, CompoundTag &tag)
 
 	chunk.lastSaveHadEntities = false;
 
-	std::shared_ptr<ListTag> entityTags = std::make_shared<ListTag>();
+	std::shared_ptr<ListTag> entityTags = Util::make_shared<ListTag>();
 	for (auto &i : chunk.entityBlocks)
 	{
 		for (auto &e : i)
 		{
 			chunk.lastSaveHadEntities = true;
 
-			std::shared_ptr<CompoundTag> entityTag = std::make_shared<CompoundTag>();
+			std::shared_ptr<CompoundTag> entityTag = Util::make_shared<CompoundTag>();
 			if (e->save(*entityTag))
 				entityTags->add(entityTag);
 		}
 	}
 	tag.put(u"Entities", entityTags);
 
-	std::shared_ptr<ListTag> tileEntityTags = std::make_shared<ListTag>();
+	std::shared_ptr<ListTag> tileEntityTags = Util::make_shared<ListTag>();
 	for (auto &e : chunk.tileEntities)
 	{
-		std::shared_ptr<CompoundTag> tileEntityTag = std::make_shared<CompoundTag>();
+		std::shared_ptr<CompoundTag> tileEntityTag = Util::make_shared<CompoundTag>();
 		e.second->save(*tileEntityTag);
 		tileEntityTags->add(tileEntityTag);
 	}
@@ -158,7 +158,7 @@ std::shared_ptr<LevelChunk> OldChunkStorage::load(Level &level, CompoundTag &tag
 	int_t x = tag.getInt(u"xPos");
 	int_t z = tag.getInt(u"zPos");
 
-	std::shared_ptr<LevelChunk> chunk = std::make_shared<LevelChunk>(level, x, z);
+	std::shared_ptr<LevelChunk> chunk = Util::make_shared<LevelChunk>(level, x, z);
 
 	bool hasBlocks = false;
 	{

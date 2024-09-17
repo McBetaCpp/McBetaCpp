@@ -167,6 +167,7 @@ set(McBetaCpp_SOURCES
 
 	"src/util/GLU.cpp"
 	"src/util/GLU.h"
+	"src/util/Memory.h"
 	"src/util/Mth.cpp"
 	"src/util/Mth.h"
 	"src/util/ProgressListener.h"
@@ -290,7 +291,7 @@ set(McBetaCpp_SOURCES
 	"src/java/IOUtil.h"
 	"src/java/Math.cpp"
 	"src/java/Math.h"
-	"src/Java/Random.cpp"
+	"src/java/Random.cpp"
 	"src/java/Random.h"
 	"src/java/Resource.h"
 	"src/java/Runtime.h"

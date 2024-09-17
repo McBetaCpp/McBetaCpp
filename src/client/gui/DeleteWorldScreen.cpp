@@ -12,7 +12,7 @@ DeleteWorldScreen::DeleteWorldScreen(Minecraft &minecraft, std::shared_ptr<Scree
 
 void DeleteWorldScreen::postInit()
 {
-	buttons.push_back(std::make_shared<Button>(6, width / 2 - 100, height / 6 + 168, u"Cancel"));
+	buttons.push_back(Util::make_shared<Button>(6, width / 2 - 100, height / 6 + 168, u"Cancel"));
 }
 
 void DeleteWorldScreen::worldSelected(int_t id)
@@ -22,7 +22,7 @@ void DeleteWorldScreen::worldSelected(int_t id)
 	{
 		jstring title1 = u"Are you sure you want to delete this world?";
 		jstring title2 = u"'" + worldName + u"' will be lost forever!";
-		minecraft.setScreen(std::make_shared<ConfirmScreen>(minecraft, minecraft.screen, title1, title2, id));
+		minecraft.setScreen(Util::make_shared<ConfirmScreen>(minecraft, minecraft.screen, title1, title2, id));
 	}
 }
 

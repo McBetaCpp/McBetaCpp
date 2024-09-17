@@ -12,8 +12,8 @@ ConfirmScreen::ConfirmScreen(Minecraft &minecraft, std::shared_ptr<Screen> paren
 
 void ConfirmScreen::init()
 {
-	buttons.push_back(std::make_shared<SmallButton>(0, width / 2 - 155 + 0, height / 6 + 96, u"Yes"));
-	buttons.push_back(std::make_shared<SmallButton>(1, width / 2 - 155 + 160, height / 6 + 96, u"No"));
+	buttons.push_back(Util::make_shared<SmallButton>(0, width / 2 - 155 + 0, height / 6 + 96, u"Yes"));
+	buttons.push_back(Util::make_shared<SmallButton>(1, width / 2 - 155 + 160, height / 6 + 96, u"No"));
 }
 
 void ConfirmScreen::buttonClicked(Button &button)

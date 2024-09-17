@@ -11,6 +11,8 @@
 #include "client/MemoryTracker.h"
 #include "java/BufferedImage.h"
 
+#include "util/Memory.h"
+
 class TexturePackRepository;
 class Options;
 

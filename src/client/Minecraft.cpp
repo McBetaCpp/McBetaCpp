@@ -1,8 +1,6 @@
 #include "Minecraft.h"
 
-#include <string>
 #include <iostream>
-#include <memory>
 #include <stdexcept>
 #include <thread>
 
@@ -89,7 +87,7 @@ void Minecraft::init()
 	options.open(workingDirectory.get());
 	texturePackRepository.updateListAndSelect();
 
-	font = std::make_unique<Font>(options, u"/font/default.png", textures);
+	font = Util::make_unique<Font>(options, u"/font/default.png", textures);
 
 	// renderLoadingScreen();
 
@@ -116,7 +114,7 @@ void Minecraft::init()
 	// dynamic textures
 	//textures.addDynamicTexture();
 
-	setScreen(std::make_shared<TitleScreen>(*this));
+	setScreen(Util::make_shared<TitleScreen>(*this));
 }
 
 void Minecraft::renderLoadingScreen()
@@ -208,7 +206,7 @@ void Minecraft::setScreen(std::shared_ptr<Screen> screen)
 		this->screen->removed();
 
 	if (screen == nullptr && level == nullptr)
-		screen = std::make_shared<TitleScreen>(*this);
+		screen = Util::make_shared<TitleScreen>(*this);
 	else if (screen == nullptr) // TODO player check
 		;// TODO death
 
@@ -275,7 +273,7 @@ Minecraft::~Minecraft()
 
 void Minecraft::generateFlyby()
 {
-	gameMode = std::make_shared<SurvivalMode>(*this);
+	gameMode = Util::make_shared<SurvivalMode>(*this);
 	selectLevel(u"flyby");
 	setScreen(nullptr);
 
@@ -645,7 +643,7 @@ void Minecraft::pauseGame()
 {
 	if (this->screen != nullptr)
 		return;
-	setScreen(std::make_shared<PauseScreen>(*this));
+	setScreen(Util::make_shared<PauseScreen>(*this));
 }
 
 void Minecraft::handleMouseDown(int_t button, bool down)
@@ -928,7 +926,7 @@ void Minecraft::selectLevel(const jstring &name)
 	setLevel(nullptr);
 
 	std::unique_ptr<File> saves(File::open(*getWorkingDirectory(), u"saves"));
-	std::shared_ptr<Level> new_level = std::make_shared<Level>(saves.release(), name);
+	std::shared_ptr<Level> new_level = Util::make_shared<Level>(saves.release(), name);
 	if (new_level->isNew)
 		setLevel(new_level, u"Generating level");
 	else
@@ -996,7 +994,7 @@ void Minecraft::setLevel(std::shared_ptr<Level> level, const jstring &title, std
 			this->player->resetPos();
 			gameMode->initPlayer(this->player);
 		}
-		this->player->input = std::make_unique<KeyboardInput>(options);
+		this->player->input = Util::make_unique<KeyboardInput>(options);
 
 		levelRenderer.setLevel(level);
 
@@ -1095,13 +1093,13 @@ void Minecraft::start(const jstring *name, const jstring *sessionId)
 
 void Minecraft::startAndConnectTo(const jstring *name, const jstring *sessionId, const jstring *ip)
 {
-	std::unique_ptr<Minecraft> minecraft = std::make_unique<Minecraft>(854, 480, false);
+	std::unique_ptr<Minecraft> minecraft = Util::make_unique<Minecraft>(854, 480, false);
 
 	minecraft->serverDomain = u"www.minecraft.net";
 	if (name != nullptr && sessionId != nullptr)
-		minecraft->user = std::make_unique<User>(*name, *sessionId);
+		minecraft->user = Util::make_unique<User>(*name, *sessionId);
 	else
-		minecraft->user = std::make_unique<User>(u"Player" + String::fromUTF8(std::to_string(System::currentTimeMillis() % 1000)), u"");
+		minecraft->user = Util::make_unique<User>(u"Player" + String::fromUTF8(std::to_string(System::currentTimeMillis() % 1000)), u"");
 	
 	if (ip != nullptr)
 	{

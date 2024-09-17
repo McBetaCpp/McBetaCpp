@@ -13,6 +13,8 @@
 #include "java/Type.h"
 #include "java/Random.h"
 
+#include "util/Memory.h"
+
 class Level;
 class Entity;
 class AABB;

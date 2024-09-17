@@ -15,6 +15,8 @@
 #include "java/Random.h"
 #include "java/String.h"
 
+#include "util/Memory.h"
+
 class Level;
 class Material;
 class Player;

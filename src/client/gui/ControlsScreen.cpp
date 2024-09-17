@@ -21,9 +21,9 @@ void ControlsScreen::init()
 
 	int_t leftPos = getLeftScreenPosition();
 	for (int_t i = 0; i < std::size(options.keyMappings); i++)
-		buttons.push_back(std::make_shared<SmallButton>(i, leftPos + (i % 2) * ROW_WIDTH, height / 6 + 24 * (i >> 1), BUTTON_WIDTH, 20, options.getKeyMessage(i)));
+		buttons.push_back(Util::make_shared<SmallButton>(i, leftPos + (i % 2) * ROW_WIDTH, height / 6 + 24 * (i >> 1), BUTTON_WIDTH, 20, options.getKeyMessage(i)));
 
-	buttons.push_back(std::make_shared<Button>(200, width / 2 - 100, height / 6 + 168, language.getElement(u"gui.done")));
+	buttons.push_back(Util::make_shared<Button>(200, width / 2 - 100, height / 6 + 168, language.getElement(u"gui.done")));
 	title = language.getElement(u"controls.title");
 }
 

@@ -29,6 +29,8 @@
 
 #include "util/ProgressListener.h"
 
+#include "util/Memory.h"
+
 class Level : public LevelSource
 {
 private:

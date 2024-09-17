@@ -7,6 +7,8 @@
 #include "java/Type.h"
 #include "java/String.h"
 
+#include "util/Memory.h"
+
 class Vec3;
 class HitResult;
 
