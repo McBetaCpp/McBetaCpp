@@ -35,6 +35,7 @@ private:
 public:
 	SimplexNoise();
 	SimplexNoise(Random &random);
+	SimplexNoise(Random &&random);
 
 private:
 	static int_t fastfloor(double x);

@@ -129,7 +129,7 @@ void LevelChunk::lightLava()
 				if (emission > light)
 					light = emission;
 				if (light < 0)
-					light < 0;
+					light = 0;
 
 				blockLight.set(x, y, z, light);
 			}
@@ -443,7 +443,7 @@ int_t LevelChunk::setBlocksAndData(byte_t *in, int_t x0, int_t y0, int_t z0, int
 	return 0;
 }
 
-Random LevelChunk::getRandom(long_t xor)
+Random LevelChunk::getRandom(long_t seed)
 {
 	return Random();
 }

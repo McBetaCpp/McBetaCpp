@@ -13,6 +13,11 @@ PerlinNoise::PerlinNoise(Random &random, int_t levels)
 		noiseLevels.emplace_back(random);
 }
 
+PerlinNoise::PerlinNoise(Random &&random, int_t levels) : PerlinNoise(random, levels)
+{
+
+}
+
 double PerlinNoise::getValue(double x, double y)
 {
 	double result = 0.0;

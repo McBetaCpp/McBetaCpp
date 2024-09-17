@@ -10,6 +10,8 @@ class LevelChunk;
 class ChunkSource
 {
 public:
+	virtual ~ChunkSource() {}
+
 	virtual bool hasChunk(int_t x, int_t z) = 0;
 	virtual std::shared_ptr<LevelChunk> getChunk(int_t x, int_t z) = 0;
 	virtual void postProcess(ChunkSource &parent, int_t x, int_t z) = 0;

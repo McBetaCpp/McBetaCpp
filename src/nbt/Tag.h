@@ -28,6 +28,8 @@ private:
 	jstring name;
 
 public:
+	virtual ~Tag() {}
+
 	virtual void write(std::ostream &os) = 0;
 	virtual void load(std::istream &is) = 0;
 

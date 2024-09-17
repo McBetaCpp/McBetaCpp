@@ -18,6 +18,7 @@ public:
 
 	ImprovedNoise();
 	ImprovedNoise(Random &random);
+	ImprovedNoise(Random &&random);
 
 	double noise(double x, double y, double z);
 

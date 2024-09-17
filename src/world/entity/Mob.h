@@ -12,7 +12,7 @@
 class Mob : public Entity
 {
 public:
-	virtual jstring getEncodeId() const { return u"Mob"; }
+	virtual jstring getEncodeId() const override { return u"Mob"; }
 
 public:
 	static constexpr int_t ATTACK_DURATION = 5;
@@ -119,7 +119,7 @@ public:
 	bool isPickable() override;
 	bool isPushable() override;
 
-	virtual float getHeadHeight();
+	virtual float getHeadHeight() override;
 
 	virtual int_t getAmbientSoundInterval();
 
@@ -200,7 +200,7 @@ protected:
 public:
 	float getAttackAnim(float a);
 	Vec3 *getPos(float a);
-	Vec3 *getLookAngle();
+	Vec3 *getLookAngle() override;
 	Vec3 *getViewVector(float a);
 
 	HitResult pick(float length, float a);

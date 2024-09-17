@@ -51,5 +51,5 @@ public:
 	bool shouldSave() override;
 	jstring gatherStats() override;
 
-	virtual bool isChunkCache() const { return true; }
+	virtual bool isChunkCache() const override { return true; }
 };

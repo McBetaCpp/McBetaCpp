@@ -27,6 +27,11 @@ ImprovedNoise::ImprovedNoise(Random &random)
 	}
 }
 
+ImprovedNoise::ImprovedNoise(Random &&random) : ImprovedNoise(random)
+{
+
+}
+
 double ImprovedNoise::noise(double x, double y, double z)
 {
 	x += xo;

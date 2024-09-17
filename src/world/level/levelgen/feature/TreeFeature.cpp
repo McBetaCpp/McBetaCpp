@@ -77,4 +77,6 @@ bool TreeFeature::place(Level &level, Random &random, int_t x, int_t y, int_t z)
 		if (b == 0 || b == Tile::leaves.id)
 			level.setTileNoUpdate(x, y + yy, z, Tile::treeTrunk.id);
 	}
+
+	return true;
 }

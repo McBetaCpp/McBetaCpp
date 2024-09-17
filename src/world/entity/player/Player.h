@@ -73,7 +73,7 @@ public:
 	bool hurt(Entity *source, int_t dmg) override;
 
 protected:
-	void actuallyHurt(int_t dmg);
+	void actuallyHurt(int_t dmg) override;
 
 public:
 	bool isPlayer() override { return true; }

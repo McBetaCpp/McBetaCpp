@@ -114,8 +114,14 @@ void TitleScreen::buttonClicked(Button &button)
 		minecraft.setScreen(std::make_shared<OptionsScreen>(minecraft, minecraft.screen, minecraft.options));
 	if (button.id == 1)
 		minecraft.setScreen(std::make_shared<SelectWorldScreen>(minecraft, minecraft.screen));
-	if (button.id == 2);
-	if (button.id == 3);
+	if (button.id == 2)
+	{
+		// TODO
+	}
+	if (button.id == 3)
+	{
+		// TODO
+	}
 	if (button.id == 4)
 		minecraft.stop();
 }

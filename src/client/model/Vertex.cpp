@@ -15,14 +15,17 @@ Vertex Vertex::remap(float u, float v)
 	return Vertex(*this, u, v);
 }
 
-Vertex::Vertex(Vertex &other, float u, float v)
+Vertex::Vertex(const Vertex &other, float u, float v) : Vertex(other.pos, u, v)
 {
-	pos = other.pos;
-	this->u = u;
-	this->v = v;
+
 }
 
-Vertex::Vertex(Vec3 &pos, float u, float v)
+Vertex::Vertex(Vertex &&other, float u, float v) : Vertex(other.pos, u, v)
+{
+
+}
+
+Vertex::Vertex(const Vec3 &pos, float u, float v)
 {
 	this->pos = pos;
 	this->u = u;

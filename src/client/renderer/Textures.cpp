@@ -28,26 +28,31 @@ int_t Textures::loadTexture(const jstring &resourceName)
 	if (!resourceName.compare(0, 2, u"##"))
 	{
 		std::unique_ptr<std::istream> is(skin->getResource(resourceName.substr(2)));
-		loadTexture(makeStrip(readImage(*is)), i);
+		BufferedImage img = readImage(*is);
+		img = makeStrip(img);
+		loadTexture(img, i);
 	}
 	else if (!resourceName.compare(0, 7, u"%clamp%"))
 	{
 		std::unique_ptr<std::istream> is(skin->getResource(resourceName.substr(7)));
+		BufferedImage img = readImage(*is);
 		clamp = true;
-		loadTexture(readImage(*is), i);
+		loadTexture(img, i);
 		clamp = false;
 	}
 	else if (!resourceName.compare(0, 6, u"%blur%"))
 	{
 		std::unique_ptr<std::istream> is(skin->getResource(resourceName.substr(6)));
+		BufferedImage img = readImage(*is);
 		blur = true;
-		loadTexture(readImage(*is), i);
+		loadTexture(img, i);
 		blur = false;
 	}
 	else
 	{
 		std::unique_ptr<std::istream> is(skin->getResource(resourceName));
-		loadTexture(readImage(*is), i);
+		BufferedImage img = readImage(*is);
+		loadTexture(img, i);
 	}
 
 	idMap.emplace(resourceName, i);
@@ -265,7 +270,8 @@ void Textures::reloadAll()
 		if (!name.compare(0, 2, u"##"))
 		{
 			std::unique_ptr<std::istream> is(skin->getResource(name.substr(2)));
-			image = makeStrip(readImage(*is));
+			image = readImage(*is);
+			image = makeStrip(image);
 		}
 		else if (!name.compare(0, 7, u"%clamp%"))
 		{

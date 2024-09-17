@@ -37,8 +37,8 @@ public:
 	void releaseAllKeys();
 	void setKey(int_t eventKey, bool eventKeyState);
 
-	void addAdditionalSaveData(CompoundTag &tag);
-	void readAdditionalSaveData(CompoundTag &tag);
+	void addAdditionalSaveData(CompoundTag &tag) override;
+	void readAdditionalSaveData(CompoundTag &tag) override;
 
 	void closeContainer() override;
 

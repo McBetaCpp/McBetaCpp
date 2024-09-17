@@ -50,6 +50,8 @@ public:
 	LevelChunk(Level &level, int_t x, int_t z);
 	LevelChunk(Level &level, const ubyte_t *blocks, int_t x, int_t z);
 
+	virtual ~LevelChunk() {}
+
 	virtual bool isAt(int_t x, int_t z);
 
 	virtual int_t getHeightmap(int_t x, int_t z);
@@ -106,7 +108,7 @@ public:
 	virtual int_t getBlocksAndData(byte_t *out, int_t x0, int_t y0, int_t z0, int_t x1, int_t y1, int_t z1);
 	virtual int_t setBlocksAndData(byte_t *in, int_t x0, int_t y0, int_t z0, int_t x1, int_t y1, int_t z1);
 
-	virtual Random getRandom(long_t xor);
+	virtual Random getRandom(long_t seed);
 
 	virtual bool isEmpty();
 };

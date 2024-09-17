@@ -15,7 +15,7 @@ public:
 	void render(Entity &entity, double x, double y, double z, float rot, float a) override;
 
 protected:
-	void scale(Mob &mob, float a);
+	void scale(Mob &mob, float a) override;
 
 public:
 	void renderHand();

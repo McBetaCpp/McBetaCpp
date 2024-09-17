@@ -35,7 +35,8 @@ void Level::deleteLevel(File &workingDirectory, const jstring &name)
 	if (!world->exists())
 		return;
 
-	deleteRecursive(world->listFiles());
+	auto level_files = world->listFiles();
+	deleteRecursive(level_files);
 	world->remove();
 }
 
@@ -44,7 +45,10 @@ void Level::deleteRecursive(std::vector<std::unique_ptr<File>> &files)
 	for (auto &i : files)
 	{
 		if (i->isDirectory())
-			deleteRecursive(i->listFiles());
+		{
+			auto i_files = i->listFiles();
+			deleteRecursive(i_files);
+		}
 		i->remove();
 	}
 }
@@ -60,7 +64,8 @@ long_t Level::getLevelSize(File &workingDirectory, const jstring &name)
 	std::unique_ptr<File> world(File::open(*saves, name));
 	if (!world->exists())
 		return 0;
-	return calcSize(world->listFiles());
+	auto level_files = world->listFiles();
+	return calcSize(level_files);
 }
 
 long_t Level::calcSize(std::vector<std::unique_ptr<File>> &files)
@@ -69,9 +74,14 @@ long_t Level::calcSize(std::vector<std::unique_ptr<File>> &files)
 	for (auto &i : files)
 	{
 		if (i->isDirectory())
-			sizeOnDisk += calcSize(i->listFiles());
+		{
+			auto i_files = i->listFiles();
+			sizeOnDisk += calcSize(i_files);
+		}
 		else
+		{
 			sizeOnDisk += i->length();
+		}
 	}
 	return sizeOnDisk;
 }

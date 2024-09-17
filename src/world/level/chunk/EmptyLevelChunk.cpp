@@ -183,9 +183,9 @@ int_t EmptyLevelChunk::setBlocksAndData(byte_t *in, int_t x0, int_t y0, int_t z0
 	return fsize;
 }
 
-Random EmptyLevelChunk::getRandom(long_t xor)
+Random EmptyLevelChunk::getRandom(long_t seed)
 {
-	return Random(level.seed + (x * x * 4987142) + (x * 5947611) + (z * z) * 4392871LL + (z * 389711) ^ xor);
+	return Random(level.seed + (x * x * 4987142) + (x * 5947611) + (z * z) * 4392871LL + (z * 389711) ^ seed);
 }
 
 bool EmptyLevelChunk::isEmpty()

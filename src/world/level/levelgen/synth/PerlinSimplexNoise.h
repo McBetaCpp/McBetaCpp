@@ -18,6 +18,7 @@ private:
 public:
 	PerlinSimplexNoise(int_t levels);
 	PerlinSimplexNoise(Random &random, int_t levels);
+	PerlinSimplexNoise(Random &&random, int_t levels);
 
 	double getValue(double x, double y) override;
 	double getValue(double x, double y, double z);

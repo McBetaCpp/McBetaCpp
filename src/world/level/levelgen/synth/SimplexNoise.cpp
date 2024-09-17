@@ -23,6 +23,11 @@ SimplexNoise::SimplexNoise(Random &random)
 	}
 }
 
+SimplexNoise::SimplexNoise(Random &&random) : SimplexNoise(random)
+{
+
+}
+
 int_t SimplexNoise::fastfloor(double x)
 {
 	return (x > 0.0) ? static_cast<int_t>(x) : (static_cast<int_t>(x) - 1);
