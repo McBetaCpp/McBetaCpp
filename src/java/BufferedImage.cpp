@@ -94,11 +94,32 @@ BufferedImage BufferedImage::ImageIO_read(std::istream &in)
 	assert(raw_data != nullptr);
 
 	// Convert to RGBA
-	std::unique_ptr<unsigned char[]> data;
+	std::unique_ptr<unsigned char[]> data = Util::make_unique<unsigned char[]>(w * h * 4);
 
-	if (comp == 3)
+	if (comp == 1)
 	{
-		data = Util::make_unique<unsigned char[]>(w * h * 4);
+		for (int i = 0; i < w * h; i++)
+		{
+			data[i * 4 + 0] = raw_data[i];
+			data[i * 4 + 1] = raw_data[i];
+			data[i * 4 + 2] = raw_data[i];
+			data[i * 4 + 3] = 255;
+		}
+		stbi_image_free(raw_data);
+	}
+	else if (comp == 2)
+	{
+		for (int i = 0; i < w * h; i++)
+		{
+			data[i * 4 + 0] = raw_data[i * 2 + 0];
+			data[i * 4 + 1] = raw_data[i * 2 + 0];
+			data[i * 4 + 2] = raw_data[i * 2 + 0];
+			data[i * 4 + 3] = raw_data[i * 2 + 1];
+		}
+		stbi_image_free(raw_data);
+	}
+	else if (comp == 3)
+	{
 		for (int i = 0; i < w * h; i++)
 		{
 			data[i * 4 + 0] = raw_data[i * 3 + 0];
@@ -110,7 +131,14 @@ BufferedImage BufferedImage::ImageIO_read(std::istream &in)
 	}
 	else if (comp == 4)
 	{
-		data = std::unique_ptr<unsigned char[]>(raw_data);
+		for (int i = 0; i < w * h; i++)
+		{
+			data[i * 4 + 0] = raw_data[i * 4 + 0];
+			data[i * 4 + 1] = raw_data[i * 4 + 1];
+			data[i * 4 + 2] = raw_data[i * 4 + 2];
+			data[i * 4 + 3] = raw_data[i * 4 + 3];
+		}
+		stbi_image_free(raw_data);
 	}
 	else
 	{
