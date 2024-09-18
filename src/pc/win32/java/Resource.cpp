@@ -10,40 +10,9 @@
 
 #include "util/Memory.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-
-typedef std::basic_string<WCHAR> tstring;
-
-static jstring GetResourceRoot()
-{
-	// Get the path to the executable
-	tstring path(MAX_PATH, 0);
-	while (1)
-	{
-		DWORD length = GetModuleFileNameW(NULL, &path.front(), static_cast<DWORD>(path.size()));
-		if (length < path.size())
-		{
-			path.resize(length);
-			break;
-		}
-		path.resize(path.size() * 2);
-	}
-
-	// Convert to UTF-16
-	jstring u16str(path.begin(), path.end());
-
-	// Remove the executable name
-	size_t pos = u16str.find_last_of(u"/\\");
-	if (pos == std::string::npos)
-		return u"";
-
-	return u16str.substr(0, pos);
-}
-
 static const File &ResourceFile()
 {
-	static std::unique_ptr<File> resource_file(File::open(GetResourceRoot() + u"/resource"));
+	static std::unique_ptr<File> resource_file(File::openResourceDirectory());
 	return *resource_file;
 }
 

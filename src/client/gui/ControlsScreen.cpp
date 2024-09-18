@@ -5,6 +5,9 @@
 
 #include "client/gui/SmallButton.h"
 
+constexpr int_t ControlsScreen::BUTTON_WIDTH;
+constexpr int_t ControlsScreen::ROW_WIDTH;
+
 ControlsScreen::ControlsScreen(Minecraft &minecraft, std::shared_ptr<Screen> lastScreen, Options &options) : Screen(minecraft), options(options)
 {
 	this->lastScreen = lastScreen;

@@ -5,6 +5,8 @@
 
 #include "lwjgl/Keyboard.h"
 
+constexpr Options::Option::Element *Options::Option::values[];
+
 Options::Option::Element Options::Option::MUSIC = { true, false, u"options.music" };
 Options::Option::Element Options::Option::SOUND = { true, false, u"options.sound" };
 Options::Option::Element Options::Option::INVERT_MOUSE = { false, true, u"options.invertMouse" };

@@ -19,19 +19,6 @@ static jstring FromWPath(const std::wstring &wstr)
 	if (wstr.empty())
 		return u"";
 
-	/*
-	// Convert wide path to string
-	int length = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
-	if (length == 0)
-		throw std::runtime_error("Failed to convert wide path to string");
-
-	std::string str(length - 1, 0);
-	if (WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], length, nullptr, nullptr) == 0)
-		throw std::runtime_error("Failed to convert wide path to string");
-
-	// Remove prefix
-	return str.substr(4);
-	*/
 	// Convert wstring to u16string
 	std::u16string u16str(wstr.begin(), wstr.end());
 
@@ -46,17 +33,6 @@ static std::wstring ToWPath(const jstring &path)
 {
 	if (path.empty())
 		return L"";
-
-	/*
-	// Convert path to wide string
-	int length = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
-	if (length == 0)
-		throw std::runtime_error("Failed to convert path to wide string: " + path);
-
-	std::wstring wpath(length, 0);
-	if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, &wpath[0], length) == 0)
-		throw std::runtime_error("Failed to convert path to wide string: " + path);
-	*/
 
 	// Convert u16string to wstring
 	std::wstring wpath(path.begin(), path.end());
@@ -248,7 +224,7 @@ File *File::open(const jstring &path)
 
 File *File::open(const File &parent, const jstring &child)
 {
-	jstring new_path = parent.path + u'/' + child;
+	jstring new_path = parent.path + u'\\' + child;
 	return new File_Impl(new_path);
 }
 
@@ -276,7 +252,7 @@ File *File::openResourceDirectory()
 		return new File_Impl(u"");
 
 	// Return resource directory
-	return new File_Impl(u16str.substr(0, pos) + u"/resource");
+	return new File_Impl(u16str.substr(0, pos) + u"\\resource");
 }
 
 File *File::openWorkingDirectory(const jstring &name)
@@ -289,5 +265,5 @@ File *File::openWorkingDirectory(const jstring &name)
 	// Convert to UTF-16
 	jstring u16str = FromWPath(path);
 
-	return new File_Impl(u16str + u"/" + name);
+	return new File_Impl(u16str + u"\\" + name);
 }

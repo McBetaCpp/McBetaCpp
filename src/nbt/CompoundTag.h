@@ -3,6 +3,12 @@
 #include "nbt/Tag.h"
 
 #include <unordered_map>
+#include <vector>
+#include <memory>
+
+#include "java/String.h"
+
+#include "util/Memory.h"
 
 class ListTag;
 

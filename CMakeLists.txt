@@ -322,10 +322,6 @@ add_executable(McBetaCpp
 	"src/pc/lwjgl/Keyboard.h"
 	"src/pc/lwjgl/Mouse.cpp"
 	"src/pc/lwjgl/Mouse.h"
-
-	"src/pc/win32/java/File.cpp"
-	"src/pc/win32/java/Resource.cpp"
-	"src/pc/win32/java/Runtime.cpp"
 )
 target_include_directories(McBetaCpp PRIVATE "src/pc")
 

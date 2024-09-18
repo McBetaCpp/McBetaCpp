@@ -1,5 +1,7 @@
 #include "world/level/levelgen/synth/SimplexNoise.h"
 
+constexpr int_t SimplexNoise::grad3[12][3];
+
 SimplexNoise::SimplexNoise() : SimplexNoise(Random())
 {
 

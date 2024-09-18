@@ -1,5 +1,7 @@
 #include "world/level/Level.h"
 
+#include <algorithm>
+
 #include "nbt/NbtIo.h"
 
 #include "world/level/chunk/ChunkCache.h"
@@ -792,14 +794,14 @@ void Level::removeEntity(std::shared_ptr<Entity> entity)
 		entity->ride(nullptr);
 	entity->remove();
 	if (entity->isPlayer())
-		players.erase(std::remove(players.begin(), players.end(), std::static_pointer_cast<Player>(entity)), players.end());
+		;//players.erase(std::static_pointer_cast<Player>(entity));
 }
 
 void Level::removeEntityImmediately(std::shared_ptr<Entity> entity)
 {
 	entity->remove();
 	if (entity->isPlayer())
-		players.erase(std::remove(players.begin(), players.end(), std::static_pointer_cast<Player>(entity)), players.end());
+		;//players.erase(std::static_pointer_cast<Player>(entity));
 	int_t cx = entity->xChunk;
 	int_t cz = entity->zChunk;
 	if (entity->inChunk && hasChunk(cx, cz))

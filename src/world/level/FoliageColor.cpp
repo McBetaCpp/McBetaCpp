@@ -11,7 +11,7 @@ class ImgContainer
 private:
 	std::unique_ptr<std::istream> is()
 	{
-		std::unique_ptr<std::istream> is(Resource::getResource(u"/misc/grasscolor.png"));
+		std::unique_ptr<std::istream> is(Resource::getResource(u"/misc/foliagecolor.png"));
 		return is;
 	}
 public:
