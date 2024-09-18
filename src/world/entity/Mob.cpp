@@ -21,7 +21,7 @@ bool Mob::canSee(const Entity &entity)
 
 jstring Mob::getTexture()
 {
-	return u"/mob/quote.png";
+	return u"/mob/char.png";
 }
 
 bool Mob::isPickable()

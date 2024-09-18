@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.14)
 
 project(McBetaCpp
 	VERSION 1.2.2.0
@@ -308,6 +308,10 @@ add_executable(McBetaCpp
 	${McBetaCpp_SOURCES}
 	
 	"src/pc/Main.cpp"
+
+	"src/pc/CrashHandler.cpp"
+	"src/pc/CrashHandler.h"
+	"src/pc/OpenGL.h"
 
 	"src/pc/external/miniaudio.cpp"
 	"src/pc/external/SDLException.h"

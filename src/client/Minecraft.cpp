@@ -30,6 +30,8 @@
 #include "lwjgl/Display.h"
 #include "lwjgl/Keyboard.h"
 
+#include "CrashHandler.h"
+
 const jstring Minecraft::VERSION_STRING = u"Minecraft " + SharedConstants::VERSION_STRING;
 
 std::array<long, 512> Minecraft::frameTimes = {};
@@ -50,7 +52,7 @@ Minecraft::Minecraft(int_t width, int_t height, bool fullscreen)
 
 void Minecraft::onCrash(const std::string &message, const std::exception &e)
 {
-	// SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Minecraft has crashed!", (message + ": " + e.what()).c_str(), nullptr);
+	CrashHandler::Crash(message + ": " + e.what());
 }
 
 void Minecraft::init()
