@@ -100,7 +100,7 @@ void Player::swing()
 	swinging = true;
 }
 
-void Player::attack(std::shared_ptr<Entity> entity)
+void Player::attack(const std::shared_ptr<Entity> &entity)
 {
 	// TODO
 }
@@ -156,5 +156,13 @@ bool Player::hurt(Entity *source, int_t dmg)
 
 void Player::actuallyHurt(int_t dmg)
 {
+	// TODO
+}
+
+void Player::interact(const std::shared_ptr<Entity> &entity)
+{
+	if (entity->interact(*this))
+		return;
+
 	// TODO
 }

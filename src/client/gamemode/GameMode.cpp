@@ -82,3 +82,13 @@ std::shared_ptr<Player> GameMode::createPlayer(Level &level)
 {
 	return Util::make_shared<LocalPlayer>(minecraft, level, minecraft.user.get(), level.dimension->id);
 }
+
+void GameMode::interact(std::shared_ptr<Player> &player, std::shared_ptr<Entity> &entity)
+{
+	player->interact(entity);
+}
+
+void GameMode::attack(std::shared_ptr<Player> &player, std::shared_ptr<Entity> &entity)
+{
+	player->attack(entity);
+}

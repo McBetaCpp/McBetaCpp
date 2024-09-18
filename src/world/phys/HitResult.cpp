@@ -15,12 +15,14 @@ HitResult::HitResult(int_t x, int_t y, int_t z, Facing f, const Vec3 &pos)
 	this->z = z;
 	this->f = f;
 	this->pos = Vec3::newTemp(pos.x, pos.y, pos.z);
+	this->type = Type::TILE;
 }
 
 HitResult::HitResult(std::shared_ptr<Entity> &entity)
 {
 	this->entity = entity;
 	this->pos = Vec3::newTemp(entity->x, entity->y, entity->z);
+	this->type = Type::ENTITY;
 }
 
 double HitResult::distanceTo(std::shared_ptr<Entity> &entity) const

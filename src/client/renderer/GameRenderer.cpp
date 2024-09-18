@@ -40,67 +40,67 @@ void GameRenderer::tick()
 
 void GameRenderer::pick(float a)
 {
-	if (mc.player != nullptr)
+	if (mc.player == nullptr)
+		return;
+
+	double range = mc.gameMode->getPickRange();
+	mc.hitResult = mc.player->pick(range, a);
+
+	double hitRange = range;
+	Vec3 *playerPos = mc.player->getPos(a);
+	if (mc.hitResult.type != HitResult::Type::NONE)
+		hitRange = mc.hitResult.pos->distanceTo(*playerPos);
+
+	if (mc.gameMode->isCreativeMode())
 	{
-		double range = mc.gameMode->getPickRange();
-		mc.hitResult = mc.player->pick(range, a);
+		range = 32.0;
+		hitRange = 32.0;
+	}
+	else
+	{
+		if (hitRange > 3)
+			hitRange = 3;
+		range = hitRange;
+	}
 
-		double hitRange = range;
-		Vec3 *playerPos = mc.player->getPos(a);
-		if (mc.hitResult.type != HitResult::Type::NONE)
-			hitRange = mc.hitResult.pos->distanceTo(*playerPos);
+	Vec3 *look = mc.player->getViewVector(a);
+	Vec3 *to = playerPos->add(look->x * range, look->y * range, look->z * range);
+	hovered = nullptr;
 
-		if (mc.gameMode->isCreativeMode())
+	float skin = 1.0f;
+	const auto &es = mc.level->getEntities(mc.player.get(), *mc.player->bb.expand(look->x * range, look->y * range, look->z * range)->grow(skin, skin, skin));
+
+	double closestDist = 0.0;
+
+	for (auto &entity : es)
+	{
+		if (entity->isPickable())
 		{
-			range = 32.0;
-			hitRange = 32.0;
-		}
-		else
-		{
-			if (hitRange > 3)
-				hitRange = 3;
-			range = hitRange;
-		}
-
-		Vec3 *look = mc.player->getViewVector(a);
-		Vec3 *to = playerPos->add(look->x * range, look->y * range, look->z * range);
-		hovered = nullptr;
-
-		float skin = 1.0f;
-		const auto &es = mc.level->getEntities(mc.player.get(), *mc.player->bb.expand(look->x * range, look->y * range, look->z * range)->grow(skin, skin, skin));
-
-		double closestDist = 0.0;
-
-		for (auto &entity : es)
-		{
-			if (entity->isPickable())
+			float radius = entity->getPickRadius();
+			AABB *bb = entity->bb.grow(radius, radius, radius);
+			HitResult hr = bb->clip(*playerPos, *to);
+			if (bb->contains(*playerPos))
 			{
-				float radius = entity->getPickRadius();
-				AABB *bb = entity->bb.grow(radius, radius, radius);
-				HitResult hr = bb->clip(*playerPos, *to);
-				if (bb->contains(*playerPos))
+				if (0.0 < closestDist || closestDist == 0.0)
 				{
-					if (0.0 < closestDist || closestDist == 0.0)
-					{
-						hovered = entity;
-						closestDist = 0.0;
-					}
+					hovered = entity;
+					closestDist = 0.0;
 				}
-				else if (hr.type != HitResult::Type::NONE)
+			}
+			else if (hr.type != HitResult::Type::NONE)
+			{
+				double clipDist = playerPos->distanceTo(*hr.pos);
+				if (clipDist < closestDist || closestDist == 0.0)
 				{
-					double clipDist = playerPos->distanceTo(*hr.pos);
-					if (clipDist < closestDist || closestDist == 0.0)
-					{
-						hovered = entity;
-						closestDist = clipDist;
-					}
+					hovered = entity;
+					closestDist = clipDist;
 				}
 			}
 		}
-
-		if (hovered != nullptr && !mc.gameMode->isCreativeMode())
-			mc.hitResult = HitResult(hovered);
 	}
+
+	if (hovered != nullptr && !mc.gameMode->isCreativeMode())
+		mc.hitResult = HitResult(hovered);
 }
 
 float GameRenderer::getFov(float a)

@@ -113,9 +113,9 @@ void Gui::render(float a, bool inScreen, int_t xm, int_t ym)
 		drawString(font, u"x: " + String::toString(minecraft.player->x), 2, 64, 0xE0E0E0);
 		drawString(font, u"y: " + String::toString(minecraft.player->y), 2, 72, 0xE0E0E0);
 		drawString(font, u"z: " + String::toString(minecraft.player->z), 2, 80, 0xE0E0E0);
-		drawString(font, u"xRot: " + String::toString(minecraft.player->xRot), 2, 88, 0xE0E0E0);
-		drawString(font, u"yRot: " + String::toString(minecraft.player->yRot), 2, 96, 0xE0E0E0);
-		drawString(font, u"tilt: " + String::toString(minecraft.player->tilt), 2, 104, 0xE0E0E0);
+		// drawString(font, u"xRot: " + String::toString(minecraft.player->xRot), 2, 88, 0xE0E0E0);
+		// drawString(font, u"yRot: " + String::toString(minecraft.player->yRot), 2, 96, 0xE0E0E0);
+		// drawString(font, u"tilt: " + String::toString(minecraft.player->tilt), 2, 104, 0xE0E0E0);
 	}
 	else
 	{

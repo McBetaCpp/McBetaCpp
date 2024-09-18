@@ -20,7 +20,7 @@ public:
 		TILE,
 		ENTITY
 	};
-	Type type = Type::TILE;
+	Type type = Type::NONE;
 
 	int_t x = 0, y = 0, z = 0;
 	Facing f = Facing::DOWN;

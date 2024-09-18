@@ -57,7 +57,7 @@ private:
 
 public:
 	virtual void swing();
-	virtual void attack(std::shared_ptr<Entity> entity);
+	virtual void attack(const std::shared_ptr<Entity> &entity);
 
 	virtual void respawn();
 
@@ -76,5 +76,7 @@ protected:
 	void actuallyHurt(int_t dmg) override;
 
 public:
+	void interact(const std::shared_ptr<Entity> &entity);
+
 	bool isPlayer() override { return true; }
 };

@@ -665,6 +665,49 @@ void Minecraft::handleMouseClick(int_t button)
 		return;
 	if (button == 0)
 		player->swing();
+
+	bool canUseItem = false;
+
+	if (hitResult.type == HitResult::Type::NONE)
+	{
+		if (button == 0 && !gameMode->isCreativeMode())
+			missTime = 10;
+	}
+	else if (hitResult.type == HitResult::Type::ENTITY)
+	{
+		auto player = std::static_pointer_cast<Player>(this->player);
+
+		if (button == 0)
+			gameMode->attack(player, hitResult.entity);
+		else if (button == 1)
+			gameMode->interact(player, hitResult.entity);
+	}
+	else if (hitResult.type == HitResult::Type::TILE)
+	{
+		int_t x = hitResult.x;
+		int_t y = hitResult.y;
+		int_t z = hitResult.z;
+		Facing f = hitResult.f;
+
+		Tile &t = *Tile::tiles[level->getTile(x, y, z)];
+
+		if (button == 0)
+		{
+			level->extinguishFire(x, y, z, hitResult.f);
+			// TODO: unbreakable check
+			if (player->userType >= 100)
+				gameMode->startDestroyBlock(x, y, z, hitResult.f);
+		}
+		else
+		{
+			// TODO
+		}
+	}
+
+	if (canUseItem && button == 1)
+	{
+		// TODO
+	}
 }
 
 void Minecraft::toggleFullscreen()

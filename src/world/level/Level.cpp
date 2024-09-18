@@ -1195,6 +1195,24 @@ bool Level::containsFireTile(AABB &bb)
 	return false;
 }
 
+void Level::extinguishFire(int_t x, int_t y, int_t z, Facing f)
+{
+	if (f == Facing::DOWN)
+		y--;
+	if (f == Facing::UP)
+		y++;
+	if (f == Facing::NORTH)
+		z--;
+	if (f == Facing::SOUTH)
+		z++;
+	if (f == Facing::WEST)
+		x--;
+	if (f == Facing::EAST)
+		x++;
+
+	// TODO
+}
+
 jstring Level::gatherStats()
 {
 	return u"All: " + String::toString(entities.size());

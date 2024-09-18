@@ -6,6 +6,7 @@
 
 class Minecraft;
 class Player;
+class Entity;
 class Level;
 
 class GameMode
@@ -44,6 +45,9 @@ public:
 	//virtual bool useItemOn();
 
 	virtual std::shared_ptr<Player> createPlayer(Level &level);
+
+	virtual void interact(std::shared_ptr<Player> &player, std::shared_ptr<Entity> &entity);
+	virtual void attack(std::shared_ptr<Player> &player, std::shared_ptr<Entity> &entity);
 
 	virtual bool isCreativeMode() const { return false; }
 };

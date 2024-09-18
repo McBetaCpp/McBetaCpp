@@ -254,6 +254,8 @@ public:
 	bool containsAnyLiquid(AABB &bb);
 	bool containsFireTile(AABB &bb);
 
+	void extinguishFire(int_t x, int_t y, int_t z, Facing f);
+
 	jstring gatherStats();
 	jstring gatherChunkSourceStats();
 
