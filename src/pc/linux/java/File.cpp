@@ -210,7 +210,7 @@ File *File::openResourceDirectory()
 		length = -1;
 	}
 	#else
-	length = ::readlink("/proc/self/exe", path, sizeof(path) - 1);
+	length = ::readlink("/proc/self/exe", path, PATH_MAX - 1);
 	#endif
 	if (length == -1)
 		return new File_Impl(u"");
