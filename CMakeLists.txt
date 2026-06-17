@@ -322,6 +322,7 @@ add_executable(McBetaCpp
 )
 
 target_include_directories(McBetaCpp PRIVATE "src")
+target_include_directories(McBetaCpp PRIVATE "src/ps2")
 
 # Use C++11
 set_target_properties(McBetaCpp PROPERTIES
