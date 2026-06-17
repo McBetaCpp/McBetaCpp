@@ -1,3 +1,7 @@
+# PS2 compilers
+set(CMAKE_C_COMPILER "mips64r5900el-ps2-elf-gcc")
+set(CMAKE_CXX_COMPILER "mips64r5900el-ps2-elf-g++")
+
 cmake_minimum_required(VERSION 3.14)
 
 project(McBetaCpp
