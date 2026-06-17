@@ -323,7 +323,16 @@ add_executable(McBetaCpp
 
 target_include_directories(McBetaCpp PRIVATE "src")
 target_include_directories(McBetaCpp PRIVATE "src/ps2")
-target_include_directories(McBetaCpp PRIVATE "${PS2SDK}/ee/include")
+
+# PS2SDK paths (fallback to standard installation path if ENV var is missing)
+if(DEFINED ENV{PS2SDK})
+    set(PS2SDK_ROOT $ENV{PS2SDK})
+else()
+    set(PS2SDK_ROOT "/usr/local/ps2dev/ps2_sdk")
+endif()
+
+target_include_directories(McBetaCpp PRIVATE "${PS2SDK_ROOT}/ee/include")
+target_include_directories(McBetaCpp PRIVATE "${PS2SDK_ROOT}/common/include")
 
 # Use C++11
 set_target_properties(McBetaCpp PROPERTIES
@@ -346,8 +355,7 @@ target_link_libraries(McBetaCpp PRIVATE
 	stdc++
 )
 
-target_include_directories(McBetaCpp PRIVATE "${PS2SDK}/ee/include")
-target_link_directories(McBetaCpp PRIVATE "${PS2SDK}/ee/lib")
+target_link_directories(McBetaCpp PRIVATE "${PS2SDK_ROOT}/ee/lib")
 
 target_include_directories(McBetaCpp PRIVATE "external/stb")
 target_include_directories(McBetaCpp PRIVATE "external/gzip-hpp/include")
