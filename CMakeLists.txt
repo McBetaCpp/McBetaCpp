@@ -306,60 +306,22 @@ set(McBetaCpp_SOURCES
 	"src/java/Type.h"
 	
 	"src/external/stb_image.cpp"
+
+	# PS2 platform files
+	"src/ps2/lwjgl/Display.cpp"
+	"src/ps2/lwjgl/Display.h"
+	"src/ps2/lwjgl/Keyboard.cpp"
+	"src/ps2/lwjgl/Keyboard.h"
+	"src/ps2/lwjgl/Mouse.cpp"
+	"src/ps2/lwjgl/Mouse.h"
+	"src/ps2/OpenGL.h"
 )
 
 add_executable(McBetaCpp
 	${McBetaCpp_SOURCES}
-	
-	"src/pc/Main.cpp"
-
-	"src/pc/CrashHandler.cpp"
-	"src/pc/CrashHandler.h"
-	"src/pc/OpenGL.h"
-
-	"src/pc/external/miniaudio.cpp"
-	"src/pc/external/SDLException.h"
-	"src/pc/external/stb_vorbis.cpp"
-	"src/pc/external/stb_vorbis.h"
-
-	"src/pc/lwjgl/Display.cpp"
-	"src/pc/lwjgl/Display.h"
-	"src/pc/lwjgl/GLContext.cpp"
-	"src/pc/lwjgl/GLContext.h"
-	"src/pc/lwjgl/Keyboard.cpp"
-	"src/pc/lwjgl/Keyboard.h"
-	"src/pc/lwjgl/Mouse.cpp"
-	"src/pc/lwjgl/Mouse.h"
 )
-target_include_directories(McBetaCpp PRIVATE "src/pc")
 
 target_include_directories(McBetaCpp PRIVATE "src")
-
-# Compile platform specific code
-if(WIN32)
-	target_sources(McBetaCpp PRIVATE
-		"src/pc/win32/java/File.cpp"
-		"src/pc/win32/java/Resource.cpp"
-		"src/pc/win32/java/Runtime.cpp"
-	)
-
-	target_compile_definitions(McBetaCpp PRIVATE MC_WIN32)
-elseif(APPLE)
-	#message(FATAL_ERROR "MacOS is not supported yet.")
-	target_sources(McBetaCpp PRIVATE
-		"src/pc/linux/java/File.cpp"
-		"src/pc/linux/java/Resource.cpp"
-		"src/pc/linux/java/Runtime.cpp"
-	)
-elseif(UNIX)
-	target_sources(McBetaCpp PRIVATE
-		"src/pc/linux/java/File.cpp"
-		"src/pc/linux/java/Resource.cpp"
-		"src/pc/linux/java/Runtime.cpp"
-	)
-	
-	target_compile_definitions(McBetaCpp PRIVATE MC_LINUX)
-endif()
 
 # Use C++11
 set_target_properties(McBetaCpp PROPERTIES
@@ -368,23 +330,25 @@ set_target_properties(McBetaCpp PROPERTIES
 	CXX_EXTENSIONS NO
 )
 
-# Third party
-add_subdirectory("external/glad" EXCLUDE_FROM_ALL)
-target_link_libraries(McBetaCpp PRIVATE glad)
+# Third party - removed SDL2, glad, miniaudio (not available on PS2)
+# Only keeping zlib and stb which are header-only or portable
+# Note: zlib needs to be downloaded separately
 
-add_subdirectory("external/SDL2" EXCLUDE_FROM_ALL)
-target_link_libraries(McBetaCpp PRIVATE SDL2-static)
+# PS2SDK libraries
+target_link_libraries(McBetaCpp PRIVATE
+	gs
+	pad
+	kanji
+	c
+	m
+	stdc++
+)
 
-add_subdirectory("external/zlib" EXCLUDE_FROM_ALL)
-
-target_link_libraries(McBetaCpp PRIVATE zlibstatic)
-target_include_directories(McBetaCpp PRIVATE "external/zlib")
-target_include_directories(McBetaCpp PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/external/zlib")
+target_include_directories(McBetaCpp PRIVATE "${PS2SDK}/ee/include")
+target_link_directories(McBetaCpp PRIVATE "${PS2SDK}/ee/lib")
 
 target_include_directories(McBetaCpp PRIVATE "external/stb")
 target_include_directories(McBetaCpp PRIVATE "external/gzip-hpp/include")
-
-target_include_directories(McBetaCpp PRIVATE "external/miniaudio")
 
 # Output to bin/ directory
 set_target_properties(McBetaCpp PROPERTIES
